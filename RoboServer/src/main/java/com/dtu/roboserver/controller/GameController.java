@@ -32,8 +32,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GameController {
 
-    Space [] [] boardState;
-
     final public Board board;
 
     public GameController(Board board) {
