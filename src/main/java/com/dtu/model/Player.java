@@ -22,6 +22,7 @@
 package com.dtu.model;
 
 import com.dtu.observer.Subject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.NotNull;
 
 import static com.dtu.model.Heading.SOUTH;
@@ -36,13 +37,13 @@ public class Player extends Subject {
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
-
-    final public transient Board board;
+@JsonIgnore
+    final public Board board;
 
     private String name;
     private String color;
-
-    private transient Space space;
+@JsonIgnore
+    private Space space;
     private Heading heading = SOUTH;
 
     private CommandCardField[] program;
