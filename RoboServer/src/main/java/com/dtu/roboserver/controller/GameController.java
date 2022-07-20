@@ -28,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
@@ -46,7 +45,7 @@ public class GameController {
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
         Player other = space.getPlayer();
-        if (other != null){
+        if (other != null) {
             Space target = board.getNeighbour(space, heading);
             if (target != null) {
                 // XXX Note that there might be additional problems with
@@ -202,7 +201,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player);
+                    this.moveForward(player,1);
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -211,7 +210,7 @@ public class GameController {
                     this.turnLeft(player);
                     break;
                 case FAST_FORWARD:
-                    this.fastForward(player);
+                    this.moveForward(player,2);
                     break;
                 default:
                     // DO NOTHING (for now)
@@ -220,24 +219,20 @@ public class GameController {
     }
 
     // TODO: V2
-    public void moveForward(@NotNull Player player) {
+    public void moveForward(@NotNull Player player, int amount) {
         Space space = player.getSpace();
-        if (player != null && player.board == board && space != null) {
-            Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                // XXX note that this removes an other player from the space, when there
-                //     is another player on the target. Eventually, this needs to be
-                //     implemented in a way so that other players are pushed away!
-                target.setPlayer(player);
+        for (int i = 0; i < amount; i++) {
+            if (player != null && player.board == board && space != null) {
+                Heading heading = player.getHeading();
+                Space target = board.getNeighbour(space, heading);
+                if (target != null) {
+                    // XXX note that this removes an other player from the space, when there
+                    //     is another player on the target. Eventually, this needs to be
+                    //     implemented in a way so that other players are pushed away!
+                    target.setPlayer(player);
+                }
             }
         }
-    }
-
-    // TODO: V2
-    public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
     }
 
     // TODO: V2
