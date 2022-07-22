@@ -1,5 +1,5 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
+**/target/
+!RoboClient/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
