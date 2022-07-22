@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.dtu</groupId>
-    <artifactId>RoboServer</artifactId>
+    <artifactId>roboserver</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>RoboServer</name>
     <description>RoboServer</description>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>13.0</version>
+            <version>23.0.0</version>
         </dependency>
     </dependencies>
 

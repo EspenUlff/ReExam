@@ -21,9 +21,9 @@
  */
 package com.dtu.roboclient.view;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import com.dtu.observer.Subject;
+import com.dtu.model.Player;
+import com.dtu.model.Space;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;

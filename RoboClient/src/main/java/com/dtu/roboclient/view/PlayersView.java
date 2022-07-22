@@ -21,10 +21,10 @@
  */
 package com.dtu.roboclient.view;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
+import com.dtu.observer.Subject;
+import com.dtu.controller.IGameController;
+import com.dtu.model.Board;
+import com.dtu.model.Player;
 import javafx.scene.control.TabPane;
 
 /**
@@ -39,7 +39,7 @@ public class PlayersView extends TabPane implements ViewObserver {
 
     private PlayerView[] playerViews;
 
-    public PlayersView(GameController gameController) {
+    public PlayersView(IGameController gameController) {
         board = gameController.board;
 
         this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);

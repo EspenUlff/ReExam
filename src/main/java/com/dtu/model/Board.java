@@ -27,8 +27,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dtu.model.Phase.INITIALISATION;
-
 /**
  * ...
  *
@@ -50,7 +48,7 @@ public class Board extends Subject {
 
     private transient Player current;
 
-    private Phase phase = INITIALISATION;
+    private Phase phase = Phase.INITIALISATION;
 
     private int step = 0;
 
@@ -110,6 +108,14 @@ public class Board extends Subject {
         } else {
             return null;
         }
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public Space[][] getSpaces() {
+        return spaces;
     }
 
     public Player getCurrentPlayer() {

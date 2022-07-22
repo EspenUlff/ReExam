@@ -46,9 +46,8 @@ public class ConveyorBelt extends FieldAction {
     }
 
     @Override
-    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space) {
-        // TODO needs to be implemented - low priority
+    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
+        gameController.moveForward(space.getPlayer(), amount, this.heading);
         return false;
     }
-
 }

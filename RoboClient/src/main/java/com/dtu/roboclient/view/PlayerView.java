@@ -21,9 +21,11 @@
  */
 package com.dtu.roboclient.view;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.*;
+import com.dtu.observer.Subject;
+import com.dtu.controller.IGameController;
+import com.dtu.model.CommandCardField;
+import com.dtu.model.Phase;
+import com.dtu.model.Player;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,7 +38,6 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class PlayerView extends Tab implements ViewObserver {
 
@@ -60,9 +61,9 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private VBox playerInteractionPanel;
 
-    private GameController gameController;
+    private IGameController gameController;
 
-    public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
+    public PlayerView(@NotNull IGameController gameController, @NotNull Player player) {
         super(player.getName());
         this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
 
@@ -91,13 +92,13 @@ public class PlayerView extends Tab implements ViewObserver {
         //      refactored.
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction( e -> gameController.notImplemented());
+        finishButton.setOnAction(e -> gameController.notImplemented());
 
         executeButton = new Button("Execute Program");
-        executeButton.setOnAction( e-> gameController.notImplemented());
+        executeButton.setOnAction(e -> gameController.notImplemented());
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction( e-> gameController.notImplemented());
+        stepButton.setOnAction(e -> gameController.notImplemented());
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -138,7 +139,7 @@ public class PlayerView extends Tab implements ViewObserver {
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];
                 if (cardFieldView != null) {
-                    if (player.board.getPhase() == Phase.PROGRAMMING ) {
+                    if (player.board.getPhase() == Phase.PROGRAMMING) {
                         cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
                     } else {
                         if (i < player.board.getStep()) {
@@ -204,12 +205,12 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
                     Button optionButton = new Button("Option1");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
+                    optionButton.setOnAction(e -> gameController.notImplemented());
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
 
                     optionButton = new Button("Option 2");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
+                    optionButton.setOnAction(e -> gameController.notImplemented());
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
                 }

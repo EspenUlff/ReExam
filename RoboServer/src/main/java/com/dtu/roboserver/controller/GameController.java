@@ -42,6 +42,13 @@ public class GameController {
     // finish/execute/step button actions (PlayerView)
     // moveCards (CardFieldView)
 
+    public void moveCurrentPlayerToSpace (@NotNull Space space){
+        Player player = board.getCurrentPlayer();
+        if (space.getPlayer() == null) {
+            player.setSpace(space);
+        }
+    }
+
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
         Player other = space.getPlayer();
@@ -201,7 +208,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player,1);
+                    this.moveForward(player, 1);
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -212,6 +219,11 @@ public class GameController {
                 case FAST_FORWARD:
                     this.moveForward(player,2);
                     break;
+                case TRIPLE_FORWARD:
+                    this.moveForward(player,3);
+                    break;
+                /*case OPTION_LEFT_RIGHT:
+                  */
                 default:
                     // DO NOTHING (for now)
             }
@@ -220,10 +232,13 @@ public class GameController {
 
     // TODO: V2
     public void moveForward(@NotNull Player player, int amount) {
+        moveForward(player, amount, player.getHeading());
+    }
+
+    public void moveForward(@NotNull Player player, int amount, Heading heading) {
         Space space = player.getSpace();
         for (int i = 0; i < amount; i++) {
             if (player != null && player.board == board && space != null) {
-                Heading heading = player.getHeading();
                 Space target = board.getNeighbour(space, heading);
                 if (target != null) {
                     // XXX note that this removes an other player from the space, when there

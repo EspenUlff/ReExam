@@ -25,8 +25,6 @@ import com.dtu.observer.Subject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.NotNull;
 
-import static com.dtu.model.Heading.SOUTH;
-
 /**
  * ...
  *
@@ -44,7 +42,7 @@ public class Player extends Subject {
     private String color;
 @JsonIgnore
     private Space space;
-    private Heading heading = SOUTH;
+    private Heading heading = Heading.SOUTH;
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
@@ -134,4 +132,11 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    public void setProgram(CommandCardField[] program) {
+        this.program = program;
+    }
+
+    public void setCards(CommandCardField[] cards) {
+        this.cards = cards;
+    }
 }

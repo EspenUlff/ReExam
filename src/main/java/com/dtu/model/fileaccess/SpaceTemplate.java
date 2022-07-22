@@ -21,8 +21,8 @@
  */
 package com.dtu.model.fileaccess;
 
-import com.dtu.model.FieldAction;
 import com.dtu.model.Heading;
+import com.dtu.model.FieldAction;
 
 import java.util.ArrayList;
 import java.util.List;

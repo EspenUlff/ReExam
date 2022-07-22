@@ -21,7 +21,7 @@
  */
 package com.dtu.roboclient.view;
 
-import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import com.dtu.roboclient.controller.AppController;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;

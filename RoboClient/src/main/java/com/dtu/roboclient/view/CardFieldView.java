@@ -21,12 +21,12 @@
  */
 package com.dtu.roboclient.view;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
-import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
+import com.dtu.observer.Subject;
+import com.dtu.roboserver.controller.GameController;
+import com.dtu.model.CommandCard;
+import com.dtu.model.CommandCardField;
+import com.dtu.model.Phase;
+import com.dtu.model.Player;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -65,9 +65,9 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     private Label label;
 
-    private GameController gameController;
+    private IGameController gameController;
 
-    public CardFieldView(@NotNull GameController gameController, @NotNull CommandCardField field) {
+    public CardFieldView(@NotNull IGameController gameController, @NotNull CommandCardField field) {
         this.gameController = gameController;
         this.field = field;
 

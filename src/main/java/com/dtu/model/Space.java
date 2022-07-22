@@ -22,7 +22,6 @@
 package com.dtu.model;
 
 import com.dtu.observer.Subject;
-import com.dtu.model.FieldAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.List;
 // TODO mangler moveCurrentPlayerToSpace
 public class Space extends Subject {
 
-    private transient Player player;
+    private Player player;
 
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();

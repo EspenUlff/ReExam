@@ -27,7 +27,6 @@ import com.dtu.observer.Subject;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class CommandCardField extends Subject {
 
@@ -39,7 +38,7 @@ public class CommandCardField extends Subject {
 
     public CommandCardField(Player player) {
         this.player = player;
-        this. card = null;
+        this.card = null;
         this.visible = true;
     }
 

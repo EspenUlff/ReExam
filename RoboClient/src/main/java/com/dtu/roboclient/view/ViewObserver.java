@@ -21,8 +21,8 @@
  */
 package com.dtu.roboclient.view;
 
-import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import com.dtu.observer.Observer;
+import com.dtu.observer.Subject;
 import javafx.application.Platform;
 
 /**
