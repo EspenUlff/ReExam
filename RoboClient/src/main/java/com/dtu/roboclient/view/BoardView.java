@@ -21,11 +21,11 @@
  */
 package com.dtu.roboclient.view;
 
-import com.dtu.
-import com.dtu.observer.Subject;
-import com.dtu.roboserver.model.fileaccess.Board;
-import com.dtu.model.fileaccess.Phase;
-import com.dtu.model.fileaccess.Space;
+import com.dtu.common.controller.IGameController;
+import com.dtu.common.model.Board;
+import com.dtu.common.model.Phase;
+import com.dtu.common.model.Space;
+import com.dtu.common.observer.Subject;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -53,7 +53,7 @@ public class BoardView extends VBox implements ViewObserver {
     private SpaceEventHandler spaceEventHandler;
 
     public BoardView(@NotNull IGameController gameController) {
-        board = gameController.board;
+        //board = gameController.board;
 
         mainBoardPane = new GridPane();
         playersView = new PlayersView(gameController);
@@ -107,10 +107,10 @@ public class BoardView extends VBox implements ViewObserver {
                 Space space = spaceView.space;
                 Board board = space.board;
 
-                if (board == gameController.board) {
+                /*if (board == gameController.board) {
                     gameController.moveCurrentPlayerToSpace(space);
                     event.consume();
-                }
+                }*/
             }
         }
 

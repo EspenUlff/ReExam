@@ -19,35 +19,43 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package com.dtu.roboserver.controller;
+package com.dtu.common.model;
 
-import com.dtu.common.controller.IGameController;
-import com.dtu.common.model.FieldAction;
-import com.dtu.common.model.Heading;
-import com.dtu.common.model.Space;
-import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
-public class ConveyorBelt extends FieldAction {
+public enum Command {
 
-    private Heading heading;
+    // This is a very simplistic way of realizing different commands.
 
-    public Heading getHeading() {
-        return heading;
+    FORWARD("Fwd"),
+    RIGHT("Turn Right"),
+    LEFT("Turn Left"),
+    FAST_FORWARD("Fast Fwd"),
+    TRIPLE_FORWARD("Turbo fwd"),
+    OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
+
+    final public String displayName;
+
+    final private List<Command> options;
+
+    Command(String displayName, Command... options) {
+        this.displayName = displayName;
+        this.options = Collections.unmodifiableList(Arrays.asList(options));
     }
 
-    public void setHeading(Heading heading) {
-        this.heading = heading;
+    public boolean isInteractive() {
+        return !options.isEmpty();
     }
 
-    @Override
-    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
-        gameController.moveForward(space.getPlayer(), amount, this.heading);
-        return false;
+    public List<Command> getOptions() {
+        return options;
     }
+
 }

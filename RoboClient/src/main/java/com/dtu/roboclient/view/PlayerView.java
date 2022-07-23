@@ -21,11 +21,11 @@
  */
 package com.dtu.roboclient.view;
 
-import com.dtu.observer.Subject;
-import com.dtu.controller.IGameController;
-import com.dtu.model.CommandCardField;
-import com.dtu.model.Phase;
-import com.dtu.model.Player;
+import com.dtu.common.observer.Subject;
+import com.dtu.common.controller.IGameController;
+import com.dtu.common.model.CommandCardField;
+import com.dtu.common.model.Phase;
+import com.dtu.common.model.Player;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

@@ -19,13 +19,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package com.dtu.roboserver.controller;
-
-import com.dtu.common.controller.IGameController;
-import com.dtu.common.model.FieldAction;
-import com.dtu.common.model.Heading;
-import com.dtu.common.model.Space;
-import org.jetbrains.annotations.NotNull;
+package com.dtu.common.model;
 
 /**
  * ...
@@ -33,21 +27,6 @@ import org.jetbrains.annotations.NotNull;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class ConveyorBelt extends FieldAction {
-
-    private Heading heading;
-
-    public Heading getHeading() {
-        return heading;
-    }
-
-    public void setHeading(Heading heading) {
-        this.heading = heading;
-    }
-
-    @Override
-    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
-        gameController.moveForward(space.getPlayer(), amount, this.heading);
-        return false;
-    }
+public enum Phase {
+    INITIALISATION, PROGRAMMING, ACTIVATION, PLAYER_INTERACTION
 }

@@ -19,13 +19,13 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package com.dtu.roboserver.controller;
+package com.dtu.common.model.fileaccess;
 
-import com.dtu.common.controller.IGameController;
-import com.dtu.common.model.FieldAction;
 import com.dtu.common.model.Heading;
-import com.dtu.common.model.Space;
-import org.jetbrains.annotations.NotNull;
+import com.dtu.common.model.FieldAction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -33,21 +33,12 @@ import org.jetbrains.annotations.NotNull;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class ConveyorBelt extends FieldAction {
+public class SpaceTemplate {
 
-    private Heading heading;
+    public List<Heading> walls = new ArrayList<>();
+    public List<FieldAction> actions = new ArrayList<>();
 
-    public Heading getHeading() {
-        return heading;
-    }
+    public int x;
+    public int y;
 
-    public void setHeading(Heading heading) {
-        this.heading = heading;
-    }
-
-    @Override
-    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
-        gameController.moveForward(space.getPlayer(), amount, this.heading);
-        return false;
-    }
 }

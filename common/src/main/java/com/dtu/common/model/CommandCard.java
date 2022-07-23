@@ -19,13 +19,10 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package com.dtu.roboclient.view;
+package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
-import com.dtu.common.controller.IGameController;
-import com.dtu.common.model.Board;
-import com.dtu.common.model.Player;
-import javafx.scene.control.TabPane;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * ...
@@ -33,32 +30,17 @@ import javafx.scene.control.TabPane;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class PlayersView extends TabPane implements ViewObserver {
+public class CommandCard extends Subject {
 
-    private Board board;
+    final public Command command;
 
-    private PlayerView[] playerViews;
-
-    public PlayersView(IGameController gameController) {
-        board = gameController.getBoard();
-
-        this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-
-        playerViews = new PlayerView[board.getPlayersNumber()];
-        for (int i = 0; i < board.getPlayersNumber();  i++) {
-            playerViews[i] = new PlayerView(gameController, board.getPlayer(i));
-            this.getTabs().add(playerViews[i]);
-        }
-        board.attach(this);
-        update(board);
+    public CommandCard(@NotNull Command command) {
+        this.command = command;
     }
 
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == board) {
-            Player current = board.getCurrentPlayer();
-            this.getSelectionModel().select(board.getPlayerNumber(current));
-        }
+    public String getName() {
+        return command.displayName;
     }
+
 
 }

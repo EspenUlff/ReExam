@@ -1,9 +1,11 @@
 package com.dtu.roboserver.controller;
 
-import com.dtu.model.Board;
-import com.dtu.model.CommandCardField;
-import com.dtu.model.Player;
-import com.dtu.Config;
+import com.dtu.common.controller.GameController;
+import com.dtu.common.model.Board;
+import com.dtu.common.model.CommandCardField;
+import com.dtu.common.model.Player;
+import com.dtu.common.Config;
+import com.dtu.common.model.fileaccess.LoadBoard;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +21,12 @@ public class AppController {
         return ResponseEntity.ok().body("Pong");
     }
 
-    @PostMapping(value = "/newgame/{players}")
+    @GetMapping(value = "/newgame/{players}")
     public ResponseEntity<UUID> NewGame(@PathVariable int players) {
-        Board board = new Board(8, 8);
+        Board board = LoadBoard.loadBoardFromFile(null);
         GameController gameController = new GameController(board);
         UUID id = UUID.randomUUID();
+        id.toString();
         games.put(id, gameController);
 
         for (int i = 0; i < players; i++) {

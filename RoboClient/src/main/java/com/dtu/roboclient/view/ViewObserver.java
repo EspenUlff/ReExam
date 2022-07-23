@@ -21,8 +21,8 @@
  */
 package com.dtu.roboclient.view;
 
-import com.dtu.observer.Observer;
-import com.dtu.observer.Subject;
+import com.dtu.common.observer.Observer;
+import com.dtu.common.observer.Subject;
 import javafx.application.Platform;
 
 /**

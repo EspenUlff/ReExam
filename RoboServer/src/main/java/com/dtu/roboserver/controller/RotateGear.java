@@ -1,9 +1,9 @@
 package com.dtu.roboserver.controller;
 
-import com.dtu.controller.IGameController;
-import com.dtu.model.FieldAction;
-import com.dtu.model.Heading;
-import com.dtu.model.Space;
+import com.dtu.common.controller.IGameController;
+import com.dtu.common.model.FieldAction;
+import com.dtu.common.model.Heading;
+import com.dtu.common.model.Space;
 import org.jetbrains.annotations.NotNull;
 
 

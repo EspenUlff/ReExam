@@ -19,35 +19,25 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package com.dtu.roboserver.controller;
-
-import com.dtu.common.controller.IGameController;
-import com.dtu.common.model.FieldAction;
-import com.dtu.common.model.Heading;
-import com.dtu.common.model.Space;
-import org.jetbrains.annotations.NotNull;
+package com.dtu.common.observer;
 
 /**
- * ...
- *
+ * This is the observer of the observer design pattern roughly following
+ * the definition of the GoF.
+ * 
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class ConveyorBelt extends FieldAction {
+public interface Observer {
+	
+	/**
+	 * The observer's update method, which is called, when the subject
+	 * changes. The subject is provided as a parameter in order to
+	 * use the same observer object as an observer for many different
+	 * subjects.
+	 * 
+	 * @param subject the subject which changed
+	 */
+	void update(Subject subject);
 
-    private Heading heading;
-
-    public Heading getHeading() {
-        return heading;
-    }
-
-    public void setHeading(Heading heading) {
-        this.heading = heading;
-    }
-
-    @Override
-    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
-        gameController.moveForward(space.getPlayer(), amount, this.heading);
-        return false;
-    }
 }

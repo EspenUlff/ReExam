@@ -21,9 +21,9 @@
  */
 package com.dtu.roboclient.view;
 
-import com.dtu.observer.Subject;
-import com.dtu.model.Player;
-import com.dtu.model.Space;
+import com.dtu.common.observer.Subject;
+import com.dtu.common.model.Player;
+import com.dtu.common.model.Space;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;

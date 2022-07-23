@@ -1,8 +1,10 @@
 package com.dtu.roboclient.controller;
 
-import com.dtu.RoboRally;
-import com.dtu.model.Board;
-import com.dtu.model.Player;
+import com.dtu.common.Config;
+import com.dtu.common.controller.GameController;
+import com.dtu.common.model.Board;
+import com.dtu.common.model.Player;
+import com.dtu.roboclient.RoboRally;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class AppController {
 
     RoboRally roboRally;
+    GameController gameController;
 
     public AppController(RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -25,7 +28,7 @@ public class AppController {
     // saveGame
     // loadGame
     public void newGame() {
-        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(Config.PLAYER_NUMBER_OPTIONS.get(0), Config.PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
@@ -42,10 +45,10 @@ public class AppController {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
-            gameController = new IGameController(board);
+            gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                Player player = new Player(board, Config.PLAYER_COLORS[i], "Player " + (i + 1));
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
             }
@@ -113,5 +116,8 @@ public class AppController {
     }
 
 
-
+    public boolean isGameRunning() {
+        //TODO: fix
+        return true;
+    }
 }
