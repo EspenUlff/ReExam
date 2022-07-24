@@ -21,7 +21,6 @@
  */
 package com.dtu.common.controller;
 
-import com.dtu.common.controller.IGameController;
 import com.dtu.common.model.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,8 +38,8 @@ public class GameController implements IGameController {
     }
 
     // TODO lot of stuff missing here
-    // moveCurrentPlayerToSpace (BoardView)
-    // finish/execute/step button actions (PlayerView)
+    // moveCurrentPlayerToSpace (BoardView) done?
+    // finish/execute/step button actions (PlayerView) - meybe
     // moveCards (CardFieldView)
 
     public void moveCurrentPlayerToSpace (@NotNull Space space){
@@ -182,19 +181,7 @@ public class GameController implements IGameController {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                 }
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-                } else {
-                    step++;
-                    if (step < Player.NO_REGISTERS) {
-                        makeProgramFieldsVisible(step);
-                        board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
-                    } else {
-                        startProgrammingPhase();
-                    }
-                }
+                getNextPlayerNumber(currentPlayer, step);
             } else {
                 // this should not happen
                 assert false;
@@ -202,6 +189,22 @@ public class GameController implements IGameController {
         } else {
             // this should not happen
             assert false;
+        }
+    }
+
+    private void getNextPlayerNumber(Player currentPlayer, int step) {
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+        } else {
+            step++;
+            if (step < Player.NO_REGISTERS) {
+                makeProgramFieldsVisible(step);
+                board.setStep(step);
+                board.setCurrentPlayer(board.getPlayer(0));
+            } else {
+                startProgrammingPhase();
+            }
         }
     }
 
@@ -238,37 +241,38 @@ public class GameController implements IGameController {
 
     // TODO: V2
     public void moveForward(@NotNull Player player, int amount) {
-        moveForward(player, amount, player.getHeading());
+        //moveForward(player, amount, player.getHeading());
     }
 
-    public void moveForward(@NotNull Player player, int amount, Heading heading) {
+    public void moveForward(@NotNull Player player, int amount, Heading heading) throws ImpossibleMoveException {
         Space space = player.getSpace();
         for (int i = 0; i < amount; i++) {
             if (player != null && player.board == board && space != null) {
                 Space target = board.getNeighbour(space, heading);
                 if (target != null) {
-                    // XXX note that this removes an other player from the space, when there
-                    //     is another player on the target. Eventually, this needs to be
-                    //     implemented in a way so that other players are pushed away!
-                    target.setPlayer(player);
+                    if (target.getPlayer() != null){
+                        moveForward(target.getPlayer(), 1, player.getHeading());
+                        target.setPlayer(player);
+                    }
+                }
+                if (target == null){
+                    throw new ImpossibleMoveException(player, space, heading);
                 }
             }
         }
     }
 
-    @Override
+    /*@Override
     public void fastForward(@NotNull Player player) {
         throw new UnsupportedOperationException();
-    }
+    }*/
 
-    // TODO: V2
     public void turnRight(@NotNull Player player) {
         if (player != null && player.board == board) {
             player.setHeading(player.getHeading().next());
         }
     }
 
-    // TODO: V2
     public void turnLeft(@NotNull Player player) {
         if (player != null && player.board == board) {
             player.setHeading(player.getHeading().prev());
@@ -284,6 +288,20 @@ public class GameController implements IGameController {
             return true;
         } else {
             return false;
+        }
+    }
+    public void cardOption(Command option) {
+        Player currentPlayer = board.getCurrentPlayer();
+
+        if (board.getPhase() == Phase.PLAYER_INTERACTION && currentPlayer != null) {
+            int step = board.getStep();
+
+            if (step >= 0 && step < Player.NO_REGISTERS) {
+                executeCommand(currentPlayer, option);
+                board.setPhase(Phase.ACTIVATION);
+            }
+
+            getNextPlayerNumber(currentPlayer, step);
         }
     }
 
