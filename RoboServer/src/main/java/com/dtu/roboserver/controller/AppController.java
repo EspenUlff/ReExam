@@ -6,6 +6,7 @@ import com.dtu.common.model.CommandCardField;
 import com.dtu.common.model.Player;
 import com.dtu.common.Config;
 import com.dtu.common.model.fileaccess.LoadBoard;
+import com.dtu.common.model.fileaccess.SaveBoard;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,8 +68,11 @@ public class AppController {
     }
 
     @GetMapping (value = "/game/savegame/{id}")
-    public ResponseEntity<Board> saveGame(@PathVariable UUID id){
-        return null;
+    public ResponseEntity<String> saveGame(@PathVariable UUID id){
+        var game = games.get(id);
+        if (game == null) return ResponseEntity.notFound().build();
+        SaveBoard.saveBoard(game.board, id.toString());
+        return ResponseEntity.ok("Saved game");
     }
 
     @DeleteMapping (value = "/game/{id}")
