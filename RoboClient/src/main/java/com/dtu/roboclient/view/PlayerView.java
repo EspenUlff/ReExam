@@ -21,11 +21,9 @@
  */
 package com.dtu.roboclient.view;
 
-import com.dtu.common.observer.Subject;
 import com.dtu.common.controller.IGameController;
-import com.dtu.common.model.CommandCardField;
-import com.dtu.common.model.Phase;
-import com.dtu.common.model.Player;
+import com.dtu.common.model.*;
+import com.dtu.common.observer.Subject;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,6 +31,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * ...
@@ -89,7 +89,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
         // XXX  the following buttons should actually not be on the tabs of the individual
         //      players, but on the PlayersView (view for all players). This should be
-        //      refactored.
+        //      refactored. - Better on individual view anyway for purpose of RestAPI?
 
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> gameController.notImplemented());
@@ -200,19 +200,23 @@ public class PlayerView extends Tab implements ViewObserver {
                 playerInteractionPanel.getChildren().clear();
 
                 if (player.board.getCurrentPlayer() == player) {
-                    // TODO Assignment V3: these buttons should be shown only when there is
-                    //      an interactive command card, and the buttons should represent
-                    //      the player's choices of the interactive command card. The
-                    //      following is just a mockup showing two options
-                    Button optionButton = new Button("Option1");
-                    optionButton.setOnAction(e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);
 
-                    optionButton = new Button("Option 2");
-                    optionButton.setOnAction(e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);
+
+                    CommandCard card = player.getProgramField(player.board.getStep()).getCard();
+                    Command command = card.command;
+                    List<Command> options = command.getOptions();
+
+                    if (options != null && Phase.PLAYER_INTERACTION == player.board.getPhase()) {
+
+                        Button interactiveButton;
+                        for (Command option : options) {
+
+                            interactiveButton = new Button(option.displayName);
+                            interactiveButton.setOnAction(e -> gameController.cardOption(option));
+                            interactiveButton.setDisable(false);
+                            playerInteractionPanel.getChildren().add(interactiveButton);
+                        }
+                    }
                 }
             }
         }
