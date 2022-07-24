@@ -13,12 +13,12 @@ public interface IGameController {
     void executePrograms();
     void executeStep();
     void moveForward(@NotNull Player player, int amount);
-    void moveForward(@NotNull Player player, int amount, Heading heading);
-    void fastForward(@NotNull Player player);
+    void moveForward(@NotNull Player player, int amount, Heading heading) throws GameController.ImpossibleMoveException;
     void turnRight(@NotNull Player player);
     void turnLeft(@NotNull Player player);
     boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target);
 
     default void notImplemented(){}
 
+    void cardOption(Command option);
 }
