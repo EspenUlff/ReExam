@@ -2,14 +2,13 @@ package com.dtu.common.model.fileaccess;
 
 import com.dtu.common.model.Heading;
 
-import static com.dtu.common.model.Heading.SOUTH;
 
 public class PlayerTemplate {
     public String name;
     public String color;
     public int x;
     public int y;
-    public Heading heading = SOUTH;
+    public Heading heading = Heading.SOUTH;
 
     public PlayerTemplate(String name, String color, int x, int y, Heading heading) {
         this.name = name;

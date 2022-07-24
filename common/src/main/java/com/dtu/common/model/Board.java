@@ -31,7 +31,6 @@ import java.util.List;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 
 public class Board extends Subject {
@@ -59,7 +58,7 @@ public class Board extends Subject {
         this.height = height;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
-            for(int y = 0; y < height; y++) {
+            for (int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
             }
@@ -176,7 +175,7 @@ public class Board extends Subject {
      * (no walls or obstacles in either of the involved spaces); otherwise,
      * null will be returned.
      *
-     * @param space the space for which the neighbour should be computed
+     * @param space   the space for which the neighbour should be computed
      * @param heading the heading of the neighbour
      * @return the space in the given direction; null if there is no (reachable) neighbour
      */
@@ -189,26 +188,18 @@ public class Board extends Subject {
         //      just calculates the next space in the respective
         //      direction in a cyclic way.
 
-        // XXX an other option (not for now) would be that null represents a hole
+        // XXX another option (not for now) would be that null represents a hole
         //     or the edge of the board in which the players can fall
 
         int x = space.x;
         int y = space.y;
         switch (heading) {
-            case SOUTH:
-                y = (y + 1) % height;
-                break;
-            case WEST:
-                x = (x + width - 1) % width;
-                break;
-            case NORTH:
-                y = (y + height - 1) % height;
-                break;
-            case EAST:
-                x = (x + 1) % width;
-                break;
+            case SOUTH -> y = (y + 1) % height;
+            case WEST -> x = (x + width - 1) % width;
+            case NORTH -> y = (y + height - 1) % height;
+            case EAST -> x = (x + 1) % width;
         }
-        Heading reverse = Heading.values()[(heading.ordinal() + 2)% Heading.values().length];
+        Heading reverse = Heading.values()[(heading.ordinal() + 2) % Heading.values().length];
         Space result = getSpace(x, y);
         if (result != null) {
             if (result.getWalls().contains(reverse)) {
@@ -217,6 +208,7 @@ public class Board extends Subject {
         }
         return result;
     }
+
     public String getStatusMessage() {
         // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current

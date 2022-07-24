@@ -21,12 +21,12 @@
  */
 package com.dtu.roboclient.view;
 
-import com.dtu.common.observer.Subject;
 import com.dtu.common.controller.IGameController;
 import com.dtu.common.model.CommandCard;
 import com.dtu.common.model.CommandCardField;
 import com.dtu.common.model.Phase;
 import com.dtu.common.model.Player;
+import com.dtu.common.observer.Subject;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -41,13 +41,12 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class CardFieldView extends GridPane implements ViewObserver {
 
     // This data format helps avoiding transfers of e.g. Strings from other
     // programs which can copy/paste Strings.
-    final public static  DataFormat ROBO_RALLY_CARD = new DataFormat("games/roborally/cards");
+    final public static DataFormat ROBO_RALLY_CARD = new DataFormat("games/roborally/cards");
 
     final public static int CARDFIELD_WIDTH = 65;
     final public static int CARDFIELD_HEIGHT = 100;
@@ -59,7 +58,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     final public static Background BG_DROP = new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
 
     final public static Background BG_ACTIVE = new Background(new BackgroundFill(Color.YELLOW, null, null));
-    final public static Background BG_DONE = new Background(new BackgroundFill(Color.GREENYELLOW,  null, null));
+    final public static Background BG_DONE = new Background(new BackgroundFill(Color.GREENYELLOW, null, null));
 
     private CommandCardField field;
 
@@ -270,39 +269,40 @@ public class CardFieldView extends GridPane implements ViewObserver {
                         if (object instanceof String) {
                             CommandCardField source = cardFieldFromRepresentation((String) object);
                             if (source != null && gameController.moveCards(source, cardField)) {
-                                // CommandCard card = source.getCard();
-                                // if (card != null) {
-                                // if (gameController.moveCards(source, cardField)) {
-                                    // cardField.setCard(card);
-                                    success = true;
-                                // }
+                                CommandCard card = source.getCard();
+                                if (card != null) {
+                                    if (gameController.moveCards(source, cardField)) {
+                                        cardField.setCard(card);
+                                        success = true;
+                                    }
+                                }
                             }
                         }
                     }
+                    event.setDropCompleted(success);
+                    target.setBackground(BG_DEFAULT);
                 }
-                event.setDropCompleted(success);
-                target.setBackground(BG_DEFAULT);
+                event.consume();
             }
-            event.consume();
-        }
 
+        }
     }
 
     private class OnDragDoneHandler implements EventHandler<DragEvent> {
 
-        @Override
-        public void handle(DragEvent event) {
-            Object t = event.getTarget();
-            if (t instanceof CardFieldView) {
-                CardFieldView source = (CardFieldView) t;
-                source.setBackground(BG_DEFAULT);
+            @Override
+            public void handle(DragEvent event) {
+                Object t = event.getTarget();
+                if (t instanceof CardFieldView) {
+                    CardFieldView source = (CardFieldView) t;
+                    source.setBackground(BG_DEFAULT);
+                }
+                event.consume();
             }
-            event.consume();
+
         }
 
     }
-
-}
 
 
 
