@@ -241,7 +241,11 @@ public class GameController implements IGameController {
 
     // TODO: V2
     public void moveForward(@NotNull Player player, int amount) {
-        //moveForward(player, amount, player.getHeading());
+        try {
+            moveForward(player, amount, player.getHeading());
+        } catch (ImpossibleMoveException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void moveForward(@NotNull Player player, int amount, Heading heading) throws ImpossibleMoveException {
