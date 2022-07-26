@@ -18,7 +18,5 @@ public interface IGameController {
     void turnLeft(@NotNull Player player);
     boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target);
 
-    default void notImplemented(){}
-
     void cardOption(Command option);
 }
