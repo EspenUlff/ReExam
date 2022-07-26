@@ -33,7 +33,6 @@ import java.util.List;
  *
  */
 
-// TODO mangler moveCurrentPlayerToSpace (BoardView ) - should be done
 public class Space extends Subject {
 
     private Player player;
