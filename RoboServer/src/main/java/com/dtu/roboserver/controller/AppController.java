@@ -5,11 +5,13 @@ import com.dtu.common.model.Board;
 import com.dtu.common.model.CommandCardField;
 import com.dtu.common.model.Player;
 import com.dtu.common.Config;
+import com.dtu.common.model.fileaccess.IOUtil;
 import com.dtu.common.model.fileaccess.LoadBoard;
 import com.dtu.common.model.fileaccess.SaveBoard;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -42,6 +44,15 @@ public class AppController {
     @GetMapping(value = "/list")
     public ResponseEntity<HashMap> list() {
         return ResponseEntity.ok().body(games);
+    }
+
+    @GetMapping(value = "/boards")
+    public ResponseEntity<ArrayList<Board>> boardList(){
+        ArrayList <Board> boardArrayList = new ArrayList<>();
+        for (var boardname:IOUtil.getBoardNames()) {
+            boardArrayList.add(LoadBoard.loadBoardFromFile(boardname));
+        }
+        return ResponseEntity.ok().body(boardArrayList);
     }
 
     @GetMapping(value = "/game/{id}")
