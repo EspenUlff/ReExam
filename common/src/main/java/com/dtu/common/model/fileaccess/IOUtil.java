@@ -24,8 +24,11 @@ package com.dtu.common.model.fileaccess;
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * A utility class reading strings from resources and arbitrary input streams.
@@ -70,6 +73,27 @@ public class IOUtil {
         ClassLoader classLoader = IOUtil.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(relativeResourcePath);
         return IOUtil.readString(inputStream);
+    }
+
+    private static File[] getFolder (String folder){
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource(folder);
+        String path = url.getPath();
+        return new File(path).listFiles();
+    }
+
+    public static ArrayList<String> getBoardNames() {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource("boards");
+        String path = url.getPath();
+        File[] boardNames = new File(path).listFiles();
+
+        ArrayList<String> boards = new ArrayList<>();
+        for (File boardName : boardNames){
+            String name = boardName.getName();
+            boards.add(name.substring(0, name.lastIndexOf(".")));
+        }
+        return boards;
     }
 
 }
