@@ -21,6 +21,7 @@
  */
 package com.dtu.common.model.fileaccess;
 
+import com.dtu.common.Config;
 import com.dtu.common.model.Board;
 import com.dtu.common.model.FieldAction;
 import com.dtu.common.model.Player;
@@ -52,8 +53,7 @@ public class LoadBoard {
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
         if (inputStream == null) {
-            // TODO these constants should be defined somewhere - low priority
-            return new Board(8,8);
+            return new Board(Config.DEFAULT_BOARD_WIDTH,Config.DEFAULT_BOARD_HEIGHT);
         }
 
 		// In simple cases, we can create a Gson object with new Gson():
@@ -61,7 +61,7 @@ public class LoadBoard {
                 registerTypeAdapter(Player.class, new Adapter<Player>()).
                 registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
 
-                Gson gson = simpleBuilder.create();
+        Gson gson = simpleBuilder.create();
 
 		Board result;
 		// FileReader fileReader = null;
@@ -102,6 +102,17 @@ public class LoadBoard {
 			}
 		}
 		return null;
+    }
+
+    public static Board loadBoard(String jsonBoard){
+        /*GsonBuilder simpleBuilder = new GsonBuilder().
+                registerTypeAdapter(Player.class, new Adapter<Player>()).
+                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());*/
+
+        Gson gson = new Gson();
+
+        //BoardTemplate template = gson.fromJson(jsonBoard, BoardTemplate.class);
+        return gson.fromJson(jsonBoard, Board.class);
     }
 
 }
