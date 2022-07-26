@@ -37,11 +37,6 @@ public class GameController implements IGameController {
         this.board = board;
     }
 
-    // TODO lot of stuff missing here
-    // moveCurrentPlayerToSpace (BoardView) done?
-    // finish/execute/step button actions (PlayerView) - meybe
-    // moveCards (CardFieldView)
-
     public void moveCurrentPlayerToSpace (@NotNull Space space){
         Player player = board.getCurrentPlayer();
         if (space.getPlayer() == null) {
@@ -231,8 +226,7 @@ public class GameController implements IGameController {
                 case TRIPLE_FORWARD:
                     this.moveForward(player,3);
                     break;
-                /*case OPTION_LEFT_RIGHT:
-                  */
+                case OPTION_LEFT_RIGHT:
                 default:
                     // DO NOTHING (for now)
             }
@@ -249,15 +243,16 @@ public class GameController implements IGameController {
     }
 
     public void moveForward(@NotNull Player player, int amount, Heading heading) throws ImpossibleMoveException {
-        Space space = player.getSpace();
         for (int i = 0; i < amount; i++) {
+            Space space = player.getSpace();
             if (player != null && player.board == board && space != null) {
                 Space target = board.getNeighbour(space, heading);
                 if (target != null) {
                     if (target.getPlayer() != null){
                         moveForward(target.getPlayer(), 1, player.getHeading());
-                        target.setPlayer(player);
                     }
+                    target.setPlayer(player);
+                    player.setSpace(target);
                 }
                 if (target == null){
                     throw new ImpossibleMoveException(player, space, heading);
@@ -306,7 +301,7 @@ public class GameController implements IGameController {
             }
 
             getNextPlayerNumber(currentPlayer, step);
+            }
         }
-    }
 
 }
