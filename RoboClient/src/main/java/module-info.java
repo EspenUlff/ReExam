@@ -4,6 +4,7 @@ module com.dtu.roboclient {
     requires org.jetbrains.annotations;
     requires common;
     requires java.net.http;
+    requires gson;
 
     //opens com.dtu to javafx.fxml;
     exports com.dtu.roboclient.controller;
