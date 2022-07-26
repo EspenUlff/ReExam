@@ -3,6 +3,7 @@ module common {
     requires com.fasterxml.jackson.annotation;
     requires gson;
     requires com.google.common;
+    requires java.sql;
 
     exports com.dtu.common;
     exports com.dtu.common.observer;

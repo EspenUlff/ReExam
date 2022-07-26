@@ -26,6 +26,7 @@ public class AppController {
     public static final String BaseURI = "http://localhost:8080";
     RoboRally roboRally;
     GameController gameController;
+    UUID gameID;
 
     public AppController(RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -43,6 +44,10 @@ public class AppController {
         Optional<Integer> result = dialog.showAndWait();
 
         if (result.isPresent()) {
+            try {
+                gameID = HttpClientSynchronous.NewGame(result.get());
+            } catch (Exception e){
+            }
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
                 // give the user the option to save the game or abort this operation!
@@ -72,7 +77,7 @@ public class AppController {
     }
 
     //TODO: brug samme UUID til at gemme spillet
-    public void saveGame(UUID gameID) {
+    public void saveGame() {
         SaveBoard.saveBoard(gameController.board, gameID.toString());
     }
 
