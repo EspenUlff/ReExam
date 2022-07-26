@@ -33,6 +33,7 @@ import com.google.gson.stream.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 
 /**
  * ...
@@ -40,18 +41,21 @@ import java.io.InputStreamReader;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadBoard {
-
-    private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
+    public static final String savesPath = Path.of(System.getenv("APPDATA"),"Roborally", Config.GAMESFOLDER).toString();
+
     public static Board loadBoardFromFile(String boardname) {
+        return loadBoardFromFile(boardname, Config.BOARDSFOLDER);
+    }
+    public static Board loadBoardFromFile(String boardname, String path) {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
+        InputStream inputStream = classLoader.getResourceAsStream(path + "/" + boardname + "." + JSON_EXT);
         if (inputStream == null) {
             return new Board(Config.DEFAULT_BOARD_WIDTH,Config.DEFAULT_BOARD_HEIGHT);
         }

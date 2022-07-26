@@ -9,4 +9,7 @@ public class Config {
 
     public final static int DEFAULT_BOARD_HEIGHT = 8;
     public final static int DEFAULT_BOARD_WIDTH = 8;
+
+    public final static String GAMESFOLDER = "saves";
+    public final static String BOARDSFOLDER = "boards";
 }
