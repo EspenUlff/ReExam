@@ -4,16 +4,26 @@ import com.dtu.common.Config;
 import com.dtu.common.controller.GameController;
 import com.dtu.common.model.Board;
 import com.dtu.common.model.Player;
+import com.dtu.common.model.fileaccess.SaveBoard;
 import com.dtu.roboclient.RoboRally;
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Optional;
+import java.util.UUID;
 
 public class AppController {
 
+    public static final String BaseURI = "http://localhost:8080";
     RoboRally roboRally;
     GameController gameController;
 
@@ -21,12 +31,11 @@ public class AppController {
         this.roboRally = roboRally;
     }
 
-    // TODO most methods missing here! - low priority
-    // isGameRunning
-    // newGame
-    // stopGame
-    // saveGame
-    // loadGame
+    private static final HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(Config.PLAYER_NUMBER_OPTIONS.get(0), Config.PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
@@ -44,7 +53,7 @@ public class AppController {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
+            Board board = new Board(Config.DEFAULT_BOARD_WIDTH,Config.DEFAULT_BOARD_HEIGHT);
             gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {
@@ -52,26 +61,21 @@ public class AppController {
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
             }
-
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
+
+
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
         }
     }
 
-    public void saveGame() {
-        // XXX needs to be implemented eventually
+    //TODO: brug samme UUID til at gemme spillet
+    public void saveGame(UUID gameID) {
+        SaveBoard.saveBoard(gameController.board, gameID.toString());
     }
 
-    public void loadGame() {
-        // XXX needs to be implememted eventually
-        // for now, we just create a new game
-        if (gameController == null) {
-            newGame();
-        }
-    }
 
     /**
      * Stop playing the current game, giving the user the option to save
@@ -115,9 +119,27 @@ public class AppController {
         }
     }
 
+    //TODO: get feedback
+    public boolean isGameRunning() {return gameController != null;}
 
-    public boolean isGameRunning() {
-        //TODO: fix
-        return true;
+    public String[] getBoardList(){
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(BaseURI+"/boards"))
+                .build();
+        try {
+            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            Gson gson = new Gson();
+            String[] boards = gson.fromJson(response.body(), String[].class);
+
+            return boards;
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }
