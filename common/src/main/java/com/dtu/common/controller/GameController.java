@@ -175,6 +175,11 @@ public class GameController implements IGameController {
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
+
+                    if (command.isInteractive()){
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        return; // ensures the game does not continue to the next player, ending up in a nullpointer.
+                    }
                 }
                 getNextPlayerNumber(currentPlayer, step);
             } else {
@@ -226,7 +231,6 @@ public class GameController implements IGameController {
                 case TRIPLE_FORWARD:
                     this.moveForward(player,3);
                     break;
-                case OPTION_LEFT_RIGHT:
                 default:
                     // DO NOTHING (for now)
             }
@@ -302,6 +306,7 @@ public class GameController implements IGameController {
 
             getNextPlayerNumber(currentPlayer, step);
             }
+        continuePrograms();
         }
 
 }
