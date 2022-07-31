@@ -19,7 +19,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package com.dtu.roboserver.controller;
+package com.dtu.common.model.fieldTypes;
 
 import com.dtu.common.controller.IGameController;
 import com.dtu.common.model.FieldAction;
@@ -47,7 +47,7 @@ public class ConveyorBelt extends FieldAction {
 
     @Override
     public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
-        //gameController.moveForward(space.getPlayer(), amount, this.heading);
+        gameController.moveForward(space.getPlayer(), amount, this.heading);
         return false;
     }
 }

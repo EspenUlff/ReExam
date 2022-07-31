@@ -52,10 +52,13 @@ public class Board extends Subject {
     private int step = 0;
 
     private boolean stepMode;
+    private int totalCheckpoints;
+    private Player winner;
 
-    public Board(int width, int height) {
+    public Board(int width, int height, int totalCheckpoints) {
         this.width = width;
         this.height = height;
+        this.totalCheckpoints = totalCheckpoints;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -220,4 +223,17 @@ public class Board extends Subject {
                 ", Step: " + getStep();
     }
 
+    public int getTotalCheckpoints() {
+        return totalCheckpoints;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        if(this.winner == null && winner.hasWon())
+            this.winner = winner;
+        notifyChange();
+    }
 }

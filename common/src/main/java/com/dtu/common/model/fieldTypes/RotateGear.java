@@ -1,4 +1,4 @@
-package com.dtu.roboserver.controller;
+package com.dtu.common.model.fieldTypes;
 
 import com.dtu.common.controller.IGameController;
 import com.dtu.common.model.FieldAction;
