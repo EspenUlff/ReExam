@@ -21,13 +21,15 @@
  */
 package com.dtu.common.model;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public enum Heading {
+public enum Heading implements Serializable {
 
     SOUTH, WEST, NORTH, EAST;
 

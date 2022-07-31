@@ -23,13 +23,15 @@ package com.dtu.common.model;
 
 import com.dtu.common.controller.IGameController;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public abstract class FieldAction {
+public abstract class FieldAction implements Serializable {
 
     /**
      * Executes the field action for a given space. In order to be able to do

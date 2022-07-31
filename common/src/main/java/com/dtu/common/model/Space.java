@@ -23,6 +23,7 @@ package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
  *
  */
 
-public class Space extends Subject {
+public class Space extends Subject implements Serializable {
 
     private Player player;
 

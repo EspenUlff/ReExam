@@ -24,13 +24,15 @@ package com.dtu.common.model;
 import com.dtu.common.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class CommandCard extends Subject {
+public class CommandCard extends Subject implements Serializable {
 
     final public Command command;
 

@@ -25,23 +25,25 @@ import com.dtu.common.observer.Subject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class Player extends Subject {
+public class Player extends Subject implements Serializable {
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 @JsonIgnore
-    final public Board board;
+    final public transient Board board;
 
     private String name;
     private String color;
 @JsonIgnore
-    private Space space;
+    private transient Space space;
     private Heading heading = Heading.SOUTH;
 
     private CommandCardField[] program;

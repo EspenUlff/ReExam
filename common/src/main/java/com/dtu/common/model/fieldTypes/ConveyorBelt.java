@@ -28,13 +28,15 @@ import com.dtu.common.model.Heading;
 import com.dtu.common.model.Space;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class ConveyorBelt extends FieldAction {
+public class ConveyorBelt extends FieldAction implements Serializable {
 
     private Heading heading;
 

@@ -24,6 +24,7 @@ package com.dtu.common.model;
 import com.dtu.common.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 
-public class Board extends Subject {
+public class Board extends Subject implements Serializable {
 
     public int width;
 
@@ -45,7 +46,7 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
 
-    private transient Player current;
+    private Player current;
 
     private Phase phase = Phase.INITIALISATION;
 
@@ -56,7 +57,7 @@ public class Board extends Subject {
     private Player winner;
 
     public Board(int width, int height){
-        new Board(width, height, 0);
+        this(width, height, 0);
     }
     public Board(int width, int height, int totalCheckpoints) {
         this.width = width;

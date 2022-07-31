@@ -23,14 +23,16 @@ package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
 
+import java.io.Serializable;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class CommandCardField extends Subject {
+public class CommandCardField extends Subject implements Serializable {
 
-    final public Player player;
+    final public transient Player player;
 
     private CommandCard card;
 
