@@ -21,6 +21,7 @@
  */
 package com.dtu.common.model.fieldTypes;
 
+import com.dtu.common.controller.GameController;
 import com.dtu.common.controller.IGameController;
 import com.dtu.common.model.FieldAction;
 import com.dtu.common.model.Heading;
@@ -47,7 +48,11 @@ public class ConveyorBelt extends FieldAction {
 
     @Override
     public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
-        gameController.moveForward(space.getPlayer(), amount, this.heading);
+        try {
+            gameController.moveForward(space.getPlayer(), amount, this.heading);
+        } catch (GameController.ImpossibleMoveException e) {
+            throw new RuntimeException(e);
+        }
         return false;
     }
 }

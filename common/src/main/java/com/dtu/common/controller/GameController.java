@@ -71,7 +71,7 @@ public class GameController implements IGameController {
         player.setSpace(space);
     }
 
-    class ImpossibleMoveException extends Exception {
+    public class ImpossibleMoveException extends Exception {
 
         private Player player;
         private Space space;
