@@ -35,13 +35,13 @@ import java.util.List;
 
 public class Board extends Subject {
 
-    public final int width;
+    public int width;
 
-    public final int height;
+    public int height;
 
     private Integer gameId;
 
-    private final Space[][] spaces;
+    private Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
 
@@ -55,6 +55,9 @@ public class Board extends Subject {
     private int totalCheckpoints;
     private Player winner;
 
+    public Board(int width, int height){
+        new Board(width, height, 0);
+    }
     public Board(int width, int height, int totalCheckpoints) {
         this.width = width;
         this.height = height;
