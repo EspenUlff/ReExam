@@ -1,16 +1,17 @@
 package com.dtu.roboserver.controller;
 
+import com.dtu.common.Config;
 import com.dtu.common.controller.GameController;
 import com.dtu.common.model.Board;
 import com.dtu.common.model.CommandCardField;
 import com.dtu.common.model.Player;
-import com.dtu.common.Config;
 import com.dtu.common.model.fileaccess.IOUtil;
 import com.dtu.common.model.fileaccess.LoadBoard;
-import com.dtu.common.model.fileaccess.SaveBoard;
+import com.dtu.common.model.fileaccess.SaveGameManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -47,9 +48,9 @@ public class AppController {
     }
 
     @GetMapping(value = "/boards")
-    public ResponseEntity<ArrayList<Board>> boardList(){
-        ArrayList <Board> boardArrayList = new ArrayList<>();
-        for (var boardname:IOUtil.getBoardNames()) {
+    public ResponseEntity<ArrayList<Board>> boardList() {
+        ArrayList<Board> boardArrayList = new ArrayList<>();
+        for (var boardname : IOUtil.getBoardNames()) {
             boardArrayList.add(LoadBoard.loadBoardFromFile(boardname));
         }
         return ResponseEntity.ok().body(boardArrayList);
@@ -63,31 +64,51 @@ public class AppController {
     }
 
     @PostMapping(value = "/game/finishprograming/{id}/{playernumber}")
-    public ResponseEntity<Board> finishProgramming(@PathVariable UUID id, @PathVariable int playernumber, @RequestBody CommandCardField[] cards, @RequestBody CommandCardField[] programCards){
+    public ResponseEntity<Board> finishProgramming(@PathVariable UUID id, @PathVariable int playernumber, @RequestBody CommandCardField[] cards, @RequestBody CommandCardField[] programCards) {
         GameController gC = games.get(id);
         if (gC == null) return ResponseEntity.notFound().build();
-        Player player = gC.board.getPlayer(playernumber-1);
+        Player player = gC.board.getPlayer(playernumber - 1);
         if (player == null) return ResponseEntity.notFound().build();
         player.setProgram(programCards);
         player.setCards(cards);
         return getGame(id);
     }
 
-    @GetMapping (value = "/game/generatecards/{id}/{playernumber}")
-    public ResponseEntity<String> generateCards(@PathVariable UUID id, @PathVariable int playernumber){
+    @GetMapping(value = "/game/generatecards/{id}/{playernumber}")
+    public ResponseEntity<String> generateCards(@PathVariable UUID id, @PathVariable int playernumber) {
         return null;
     }
 
-    @GetMapping (value = "/game/savegame/{id}")
-    public ResponseEntity<String> saveGame(@PathVariable UUID id){
+    @GetMapping(value = "/game/savegame/{id}")
+    public ResponseEntity<String> saveGame(@PathVariable UUID id) {
         var game = games.get(id);
         if (game == null) return ResponseEntity.notFound().build();
-        SaveBoard.saveBoard(game.board, id.toString());
+        try {
+            SaveGameManager.saveGameToFile(game.board, id.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.ok("Saved game");
     }
 
-    @DeleteMapping (value = "/game/{id}")
-    public ResponseEntity<String> endGame(@PathVariable UUID id){
+    @GetMapping(value = "/game/loadgame/{id}")
+    public ResponseEntity<String> loadGame(@PathVariable UUID id){
+        try {
+            var game = SaveGameManager.loadGameFromFile(id.toString());
+            games.put(id, new GameController(game));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok("Loaded game");
+    }
+
+    @DeleteMapping(value = "/game/{id}")
+    public ResponseEntity<String> endGame(@PathVariable UUID id) {
         return null;
     }
 
