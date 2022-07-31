@@ -5,15 +5,14 @@ import com.dtu.common.controller.GameController;
 import com.dtu.common.model.Board;
 import com.dtu.common.model.CommandCardField;
 import com.dtu.common.model.Player;
-import com.dtu.common.model.fileaccess.IOUtil;
 import com.dtu.common.model.fileaccess.LoadBoard;
 import com.dtu.common.model.fileaccess.SaveGameManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -43,18 +42,21 @@ public class AppController {
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<HashMap> list() {
-        return ResponseEntity.ok().body(games);
+    public ResponseEntity<List<UUID>> list() {
+        var keys = games.keySet().stream().toList();
+        System.out.println(keys);
+
+        return ResponseEntity.ok().body(keys);
     }
 
-    @GetMapping(value = "/boards")
+    /*@GetMapping(value = "/boards")
     public ResponseEntity<ArrayList<Board>> boardList() {
         ArrayList<Board> boardArrayList = new ArrayList<>();
         for (var boardname : IOUtil.getBoardNames()) {
             boardArrayList.add(LoadBoard.loadBoardFromFile(boardname));
         }
         return ResponseEntity.ok().body(boardArrayList);
-    }
+    }*/
 
     @GetMapping(value = "/game/{id}")
     public ResponseEntity<Board> getGame(@PathVariable UUID id) {
@@ -72,11 +74,6 @@ public class AppController {
         player.setProgram(programCards);
         player.setCards(cards);
         return getGame(id);
-    }
-
-    @GetMapping(value = "/game/generatecards/{id}/{playernumber}")
-    public ResponseEntity<String> generateCards(@PathVariable UUID id, @PathVariable int playernumber) {
-        return null;
     }
 
     @GetMapping(value = "/game/savegame/{id}")
@@ -109,7 +106,7 @@ public class AppController {
 
     @DeleteMapping(value = "/game/{id}")
     public ResponseEntity<String> endGame(@PathVariable UUID id) {
-        return null;
+        throw new RuntimeException();
     }
 
 
