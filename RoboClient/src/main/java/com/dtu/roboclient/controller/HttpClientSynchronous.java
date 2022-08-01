@@ -38,6 +38,16 @@ public class HttpClientSynchronous {
         return UUID.fromString(body.replace("\"", ""));
     }
 
+    public static UUID NewGameNoExcept(int players) {
+        try {
+            return NewGame(players);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static UUID[] list() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
@@ -46,6 +56,16 @@ public class HttpClientSynchronous {
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var body = response.body();
         return new Gson().fromJson(body, UUID[].class);
+    }
+
+    public static UUID[] listNoExcept() {
+        try {
+            return list();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Board GetGame(UUID id) throws IOException, InterruptedException {
@@ -59,6 +79,16 @@ public class HttpClientSynchronous {
         return LoadBoard.loadBoard(body);
     }
 
+    public static Board GetGameNoExcept(UUID id) {
+        try {
+            return GetGame(id);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Board finishProgramming(UUID id, int playernumber) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
@@ -68,6 +98,16 @@ public class HttpClientSynchronous {
         var body = response.body();
         System.out.println(body);
         return LoadBoard.loadBoard(body);
+    }
+
+    public static Board finishProgrammingNoExcept(UUID id, int playernumber) {
+        try {
+            return finishProgramming(id, playernumber);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean saveGame(UUID id) throws IOException, InterruptedException {
@@ -80,7 +120,18 @@ public class HttpClientSynchronous {
         System.out.println(body);
         return response.statusCode() == 200;
     }
-    public static Boolean loadGame(UUID id) throws IOException, InterruptedException {
+
+    public static boolean saveGameNoExcept(UUID id) {
+        try {
+            return saveGame(id);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean loadGame(UUID id) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(BaseURI + "/game/loadgame/" + id))
@@ -91,7 +142,15 @@ public class HttpClientSynchronous {
         return response.statusCode() == 200;
     }
 
+    public static boolean loadGameNoExcept(UUID id) {
+        try {
+            return loadGame(id);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }
-
