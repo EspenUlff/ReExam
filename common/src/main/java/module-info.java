@@ -1,9 +1,9 @@
 module common {
     requires org.jetbrains.annotations;
     requires com.fasterxml.jackson.annotation;
-    requires gson;
     requires com.google.common;
     requires java.sql;
+    requires com.google.gson;
 
     exports com.dtu.common;
     exports com.dtu.common.observer;

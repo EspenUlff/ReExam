@@ -22,6 +22,7 @@
 package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
+import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,15 +36,17 @@ import java.util.List;
  */
 
 public class Space extends Subject implements Serializable {
-
-    private Player player;
-
-    private final List<Heading> walls = new ArrayList<>();
-    private final List<FieldAction> actions = new ArrayList<>();
-
+    @Expose
+    public Player player;
+    @Expose
+    public final List<Heading> walls = new ArrayList<>();
+    @Expose
+    public final List<FieldAction> actions = new ArrayList<>();
+    @Expose(serialize = false)
     public final transient Board board;
-
+    @Expose
     public final int x;
+    @Expose
     public final int y;
 
     public Space(Board board, int x, int y) {
@@ -60,7 +63,7 @@ public class Space extends Subject implements Serializable {
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
-                (player == null || board == player.board)) {
+                (player == null || board == player.getBoard())) {
             this.player = player;
             if (oldPlayer != null) {
                 // this should actually not happen
@@ -88,4 +91,7 @@ public class Space extends Subject implements Serializable {
         notifyChange();
     }
 
+    public Board getBoard() {
+        return board;
+    }
 }

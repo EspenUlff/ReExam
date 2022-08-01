@@ -22,6 +22,7 @@
 package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
+import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 
@@ -31,12 +32,12 @@ import java.io.Serializable;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class CommandCardField extends Subject implements Serializable {
-
-    final public transient Player player;
-
-    private CommandCard card;
-
-    private boolean visible;
+    @Expose(serialize = false)
+    public transient Player player;
+    @Expose
+    public CommandCard card;
+    @Expose
+    public boolean visible;
 
     public CommandCardField(Player player) {
         this.player = player;

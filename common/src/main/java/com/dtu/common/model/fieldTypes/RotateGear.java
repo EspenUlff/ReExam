@@ -2,7 +2,6 @@ package com.dtu.common.model.fieldTypes;
 
 import com.dtu.common.controller.IGameController;
 import com.dtu.common.model.FieldAction;
-import com.dtu.common.model.Heading;
 import com.dtu.common.model.Space;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,16 +9,6 @@ import java.io.Serializable;
 
 
 public class RotateGear extends FieldAction implements Serializable {
-
-    private Heading heading;
-
-    public Heading getHeading() {
-        return heading;
-    }
-
-    public void setHeading(Heading heading) {
-        this.heading = heading;
-    }
 
     @Override
     public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int direction) {

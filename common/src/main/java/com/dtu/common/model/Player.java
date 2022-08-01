@@ -22,7 +22,7 @@
 package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -31,24 +31,28 @@ import java.io.Serializable;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class Player extends Subject implements Serializable {
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
-@JsonIgnore
-    final public transient Board board;
 
-    private String name;
-    private String color;
-@JsonIgnore
-    private transient Space space;
-    private Heading heading = Heading.SOUTH;
-
-    private CommandCardField[] program;
-    private CommandCardField[] cards;
-    private int checkpointProgress = 0;
+    @Expose(serialize = false)
+    public transient Board board;
+    @Expose
+    public String name;
+    @Expose
+    public String color;
+    @Expose(serialize = false)
+    public transient Space space;
+    @Expose
+    public Heading heading = Heading.SOUTH;
+    @Expose
+    public CommandCardField[] program;
+    @Expose
+    public CommandCardField[] cards;
+    @Expose
+    public int checkpointProgress = 0;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -101,7 +105,7 @@ public class Player extends Subject implements Serializable {
     public void setSpace(Space space) {
         Space oldSpace = this.space;
         if (space != oldSpace &&
-                (space == null || space.board == this.board)) {
+                (space == null || space.getBoard() == this.board)) {
             this.space = space;
             if (oldSpace != null) {
                 oldSpace.setPlayer(null);
@@ -150,7 +154,16 @@ public class Player extends Subject implements Serializable {
     public void setCheckpointProgress(int checkpointProgress) {
         this.checkpointProgress = checkpointProgress;
     }
-    public boolean hasWon(){
+
+    public boolean hasWon() {
         return board.getTotalCheckpoints() == this.checkpointProgress;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }

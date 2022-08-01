@@ -38,13 +38,17 @@ import java.io.Serializable;
  */
 public class ConveyorBelt extends FieldAction implements Serializable {
 
-    private Heading heading;
+    public Heading heading;
 
     public Heading getHeading() {
         return heading;
     }
 
     public void setHeading(Heading heading) {
+        this.heading = heading;
+    }
+
+    public ConveyorBelt(Heading heading) {
         this.heading = heading;
     }
 

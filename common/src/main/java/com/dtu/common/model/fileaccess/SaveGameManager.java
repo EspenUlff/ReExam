@@ -5,6 +5,7 @@ import com.dtu.common.model.Board;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class SaveGameManager {
     private static final Path appData = Path.of(System.getenv("APPDATA"),"Roborally", Config.GAMESFOLDER);
@@ -34,5 +35,23 @@ public class SaveGameManager {
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
+    }
+
+    public static boolean deleteGame(String fileName) {
+        var file = Path.of(appData.toString(), fileName).toFile();
+
+        return file.delete();
+    }
+
+    public static ArrayList<String> getSaveNames() {
+        File[] saveNames = new File(String.valueOf(appData)).listFiles();
+
+        ArrayList<String> saves = new ArrayList<>();
+        for (File saveName : saveNames) {
+            String name = saveName.getName();
+            saves.add(name);
+
+        }
+        return saves;
     }
 }

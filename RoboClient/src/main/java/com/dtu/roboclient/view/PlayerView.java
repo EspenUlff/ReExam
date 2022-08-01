@@ -127,27 +127,27 @@ public class PlayerView extends Tab implements ViewObserver {
         top.getChildren().add(cardsLabel);
         top.getChildren().add(cardsPane);
 
-        if (player.board != null) {
-            player.board.attach(this);
-            update(player.board);
+        if (player.getBoard() != null) {
+            player.getBoard().attach(this);
+            update(player.getBoard());
         }
     }
 
     @Override
     public void updateView(Subject subject) {
-        if (subject == player.board) {
+        if (subject == player.getBoard()) {
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];
                 if (cardFieldView != null) {
-                    if (player.board.getPhase() == Phase.PROGRAMMING) {
+                    if (player.getBoard().getPhase() == Phase.PROGRAMMING) {
                         cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
                     } else {
-                        if (i < player.board.getStep()) {
+                        if (i < player.getBoard().getStep()) {
                             cardFieldView.setBackground(CardFieldView.BG_DONE);
-                        } else if (i == player.board.getStep()) {
-                            if (player.board.getCurrentPlayer() == player) {
+                        } else if (i == player.getBoard().getStep()) {
+                            if (player.getBoard().getCurrentPlayer() == player) {
                                 cardFieldView.setBackground(CardFieldView.BG_ACTIVE);
-                            } else if (player.board.getPlayerNumber(player.board.getCurrentPlayer()) > player.board.getPlayerNumber(player)) {
+                            } else if (player.getBoard().getPlayerNumber(player.getBoard().getCurrentPlayer()) > player.getBoard().getPlayerNumber(player)) {
                                 cardFieldView.setBackground(CardFieldView.BG_DONE);
                             } else {
                                 cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
@@ -159,12 +159,12 @@ public class PlayerView extends Tab implements ViewObserver {
                 }
             }
 
-            if (player.board.getPhase() != Phase.PLAYER_INTERACTION) {
+            if (player.getBoard().getPhase() != Phase.PLAYER_INTERACTION) {
                 if (!programPane.getChildren().contains(buttonPanel)) {
                     programPane.getChildren().remove(playerInteractionPanel);
                     programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
                 }
-                switch (player.board.getPhase()) {
+                switch (player.getBoard().getPhase()) {
                     case INITIALISATION -> {
                         finishButton.setDisable(true);
                         // XXX just to make sure that there is a way for the player to get
@@ -197,14 +197,14 @@ public class PlayerView extends Tab implements ViewObserver {
                 }
                 playerInteractionPanel.getChildren().clear();
 
-                if (player.board.getCurrentPlayer() == player) {
+                if (player.getBoard().getCurrentPlayer() == player) {
 
-                    int step = player.board.getStep();
+                    int step = player.getBoard().getStep();
                     CommandCard card = player.getProgramField(step).getCard();
 
                     List<Command> options = card.command.getOptions();
 
-                    if (options != null && Phase.PLAYER_INTERACTION == player.board.getPhase()) {
+                    if (options != null && Phase.PLAYER_INTERACTION == player.getBoard().getPhase()) {
 
                         Button interactiveButton;
                         for (Command option : options) {

@@ -21,6 +21,9 @@
  */
 package com.dtu.common.model;
 
+import com.google.gson.annotations.Expose;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -28,7 +31,7 @@ import java.util.List;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public enum Command {
+public enum Command implements Serializable {
 
     // This is a very simplistic way of realizing different commands.
 
@@ -40,7 +43,7 @@ public enum Command {
     OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
 
     final public String displayName;
-
+    @Expose(serialize = false)
     final private transient List<Command> options;
 
     Command(String displayName, Command... options) {

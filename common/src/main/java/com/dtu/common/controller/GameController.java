@@ -210,7 +210,7 @@ public class GameController implements IGameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if (player != null && player.getBoard() == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
@@ -249,7 +249,7 @@ public class GameController implements IGameController {
     public void moveForward(@NotNull Player player, int amount, Heading heading) throws ImpossibleMoveException {
         for (int i = 0; i < amount; i++) {
             Space space = player.getSpace();
-            if (player != null && player.board == board && space != null) {
+            if (player != null && player.getBoard() == board && space != null) {
                 Space target = board.getNeighbour(space, heading);
                 if (target != null) {
                     if (target.getPlayer() != null){
@@ -271,13 +271,13 @@ public class GameController implements IGameController {
     }*/
 
     public void turnRight(@NotNull Player player) {
-        if (player != null && player.board == board) {
+        if (player != null && player.getBoard() == board) {
             player.setHeading(player.getHeading().next());
         }
     }
 
     public void turnLeft(@NotNull Player player) {
-        if (player != null && player.board == board) {
+        if (player != null && player.getBoard() == board) {
             player.setHeading(player.getHeading().prev());
         }
     }

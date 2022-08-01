@@ -22,6 +22,7 @@
 package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
+import com.google.gson.annotations.Expose;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -35,26 +36,26 @@ import java.util.List;
  */
 
 public class Board extends Subject implements Serializable {
-
+    @Expose
     public int width;
-
+    @Expose
     public int height;
-
-    private Integer gameId;
-
-    private Space[][] spaces;
-
-    private final List<Player> players = new ArrayList<>();
-
-    private Player current;
-
-    private Phase phase = Phase.INITIALISATION;
-
-    private int step = 0;
-
-    private boolean stepMode;
-    private int totalCheckpoints;
-    private Player winner;
+    @Expose
+    public Space[][] spaces;
+    @Expose(serialize = false)
+    public List<Player> players = new ArrayList<>();
+    @Expose
+    public Player current;
+    @Expose
+    public Phase phase = Phase.INITIALISATION;
+    @Expose
+    public int step = 0;
+    @Expose
+    public boolean stepMode;
+    @Expose
+    public int totalCheckpoints;
+    @Expose
+    public Player winner;
 
     public Board(int width, int height){
         this(width, height, 0);
@@ -73,19 +74,6 @@ public class Board extends Subject implements Serializable {
         this.stepMode = false;
     }
 
-    public Integer getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        if (this.gameId == null) {
-            this.gameId = gameId;
-        } else {
-            if (!this.gameId.equals(gameId)) {
-                throw new IllegalStateException("A game with a set id may not be assigned a new id!");
-            }
-        }
-    }
 
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
@@ -102,7 +90,7 @@ public class Board extends Subject implements Serializable {
 
     public void addPlayer(@NotNull Player player) {
         if (current == null) current = player;
-        if (player.board == this && !players.contains(player)) {
+        if (player.getBoard() == this && !players.contains(player)) {
             players.add(player);
             notifyChange();
         }
@@ -169,7 +157,7 @@ public class Board extends Subject implements Serializable {
     }
 
     public int getPlayerNumber(@NotNull Player player) {
-        if (player.board == this) {
+        if (player.getBoard() == this) {
             return players.indexOf(player);
         } else {
             return -1;
@@ -239,5 +227,9 @@ public class Board extends Subject implements Serializable {
         if(this.winner == null && winner.hasWon())
             this.winner = winner;
         notifyChange();
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

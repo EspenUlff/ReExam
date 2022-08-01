@@ -2,7 +2,9 @@ package com.dtu.roboclient.controller;
 
 import com.dtu.common.Config;
 import com.dtu.common.controller.GameController;
-import com.dtu.common.model.fileaccess.IOUtil;
+import com.dtu.common.model.Board;
+import com.dtu.common.model.Player;
+import com.dtu.common.model.Space;
 import com.dtu.roboclient.RoboRally;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -11,6 +13,8 @@ import javafx.scene.control.ChoiceDialog;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,7 +22,7 @@ public class AppController {
 
     public static final String BaseURI = "http://localhost:8080";
     RoboRally roboRally;
-    //GameController gameController;
+    GameController gameController;
     UUID gameID;
 
     public AppController(RoboRally roboRally) {
@@ -35,27 +39,56 @@ public class AppController {
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
-
         if (result.isPresent()) {
             gameID = HttpClientSynchronous.NewGameNoExcept(result.get());
+            var board = HttpClientSynchronous.loadGameNoExcept(gameID);
 
-            var board = HttpClientSynchronous.GetGameNoExcept(gameID);
-            roboRally.createBoardView(new GameController(board));
+            InitializeGame(board);
         }
+
+    }
+
+    private void InitializeGame(Board board) {
+
+        List<Player> players = new ArrayList<>();
+        for (int x = 0; x < board.width; x++) {
+            for (int y = 0; y < board.height; y++) {
+                Space space = board.getSpace(x, y);
+                if (space.getPlayer() != null){
+                    players.add(space.getPlayer());
+                }
+            }
+        }
+        for (var player : players) {
+            for (var card : player.cards) {
+                card.player = player;
+            }
+            for (var card : player.program) {
+                card.player = player;
+            }
+            player.setBoard(board);
+        }
+        board.setPlayers(players);
+        gameController = new GameController(board);
+        roboRally.createBoardView(gameController);
+
     }
 
     public void saveGame() {
-        HttpClientSynchronous.saveGameNoExcept(gameID);
+        HttpClientSynchronous.saveGameNoExcept(gameID, gameController.board);
+
     }
 
+    //TODO: FIX list of active games
     public void loadGame() {
-        ChoiceDialog<String> choices = new ChoiceDialog<>(IOUtil.getSaveNames().get(0), IOUtil.getSaveNames());
+        var games = HttpClientSynchronous.listNoExcept();
+        ChoiceDialog<String> choices = new ChoiceDialog<>(games.get(0), games);
         choices.setTitle("Load Board");
         choices.setHeaderText("Select a saved game to load");
         Optional<String> result = choices.showAndWait();
 
-        HttpClientSynchronous.loadGameNoExcept(UUID.fromString(result.get()));
-        HttpClientSynchronous.GetGameNoExcept(UUID.fromString((result.get())));
+        var board = HttpClientSynchronous.loadGameNoExcept(UUID.fromString(result.get()));
+        InitializeGame(board);
     }
 
 

@@ -1,8 +1,11 @@
 package com.dtu.roboclient.controller;
 
 import com.dtu.common.model.Board;
+import com.dtu.common.model.FieldAction;
+import com.dtu.common.model.fileaccess.FieldActionTypeAdapter;
 import com.dtu.common.model.fileaccess.LoadBoard;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,10 +13,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class HttpClientSynchronous {
     public static final String BaseURI = "http://localhost:8080";
+    public static UUID gameId;
 
     private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
@@ -35,7 +41,8 @@ public class HttpClientSynchronous {
         var body = response.body();
         /*System.out.println(body);
         System.out.println(UUID.randomUUID().toString());*/
-        return UUID.fromString(body.replace("\"", ""));
+        gameId = UUID.fromString(body.replace("\"", ""));
+        return gameId;
     }
 
     public static UUID NewGameNoExcept(int players) {
@@ -48,17 +55,17 @@ public class HttpClientSynchronous {
         }
     }
 
-    public static UUID[] list() throws IOException, InterruptedException {
+    public static List<String> list() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(BaseURI + "/list"))
                 .build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var body = response.body();
-        return new Gson().fromJson(body, UUID[].class);
+        return Arrays.stream(new Gson().fromJson(body, String[].class)).toList();
     }
 
-    public static UUID[] listNoExcept() {
+    public static List<String> listNoExcept() {
         try {
             return list();
         } catch (IOException e) {
@@ -68,7 +75,7 @@ public class HttpClientSynchronous {
         }
     }
 
-    public static Board GetGame(UUID id) throws IOException, InterruptedException {
+    /*public static Board GetGame(UUID id) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(BaseURI + "/game/" + id))
@@ -77,6 +84,7 @@ public class HttpClientSynchronous {
         var body = response.body();
         System.out.println(body);
         return LoadBoard.loadBoard(body);
+
     }
 
     public static Board GetGameNoExcept(UUID id) {
@@ -87,12 +95,12 @@ public class HttpClientSynchronous {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
-    public static Board finishProgramming(UUID id, int playernumber) throws IOException, InterruptedException {
+    /*public static Board finishProgramming() throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(BaseURI + "/finishprogramming/" + id + "/" + playernumber))
+                .uri(URI.create(BaseURI + "/finishprogramming/" + gameId))
                 .build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var body = response.body();
@@ -100,20 +108,27 @@ public class HttpClientSynchronous {
         return LoadBoard.loadBoard(body);
     }
 
-    public static Board finishProgrammingNoExcept(UUID id, int playernumber) {
+    public static Board finishProgrammingNoExcept() {
         try {
-            return finishProgramming(id, playernumber);
+            return finishProgramming();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
-    public static boolean saveGame(UUID id) throws IOException, InterruptedException {
+    public static boolean saveGame(UUID id, Board board) throws IOException, InterruptedException {
+        GsonBuilder simpleBuilder = new GsonBuilder()
+                //.excludeFieldsWithModifiers(Modifier.PRIVATE, Modifier.STATIC)
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter(FieldAction.class, new FieldActionTypeAdapter());
+        Gson gson = simpleBuilder.create();
+        System.out.println(gson.toJson(board));
         HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create(BaseURI + "game/savegame/" + id))
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(board)))
+                .uri(URI.create(BaseURI + "/game/savegame/" + id))
+                .setHeader("Content-Type", "application/json")
                 .build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var body = response.body();
@@ -121,17 +136,17 @@ public class HttpClientSynchronous {
         return response.statusCode() == 200;
     }
 
-    public static boolean saveGameNoExcept(UUID id) {
+    public static boolean saveGameNoExcept(UUID id, Board board) {
         try {
-            return saveGame(id);
-        } catch (IOException e) {
+            return saveGame(id, board);
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e){
+            throw e;
         }
     }
 
-    public static boolean loadGame(UUID id) throws IOException, InterruptedException {
+    public static Board loadGame(UUID id) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(BaseURI + "/game/loadgame/" + id))
@@ -139,18 +154,32 @@ public class HttpClientSynchronous {
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var body = response.body();
         System.out.println(body);
-        return response.statusCode() == 200;
+        return LoadBoard.loadBoard(body);
     }
 
-    public static boolean loadGameNoExcept(UUID id) {
+    public static Board loadGameNoExcept(UUID id) {
         try {
             return loadGame(id);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-
+    public static boolean deleteGame(UUID id) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create(BaseURI + "/game/" + id))
+                .build();
+        var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        var body = response.body();
+        System.out.println(body);
+        return response.statusCode() == 200;
+    }
+    public static boolean deleteGameNoExcept(UUID id) {
+        try {
+            return deleteGame(id);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

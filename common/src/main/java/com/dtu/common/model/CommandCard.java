@@ -22,6 +22,7 @@
 package com.dtu.common.model;
 
 import com.dtu.common.observer.Subject;
+import com.google.gson.annotations.Expose;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -33,9 +34,8 @@ import java.io.Serializable;
  *
  */
 public class CommandCard extends Subject implements Serializable {
-
+    @Expose
     final public Command command;
-
     public CommandCard(@NotNull Command command) {
         this.command = command;
     }
