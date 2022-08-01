@@ -6,8 +6,10 @@ import com.dtu.common.model.Heading;
 import com.dtu.common.model.Space;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 
-public class RotateGear extends FieldAction {
+
+public class RotateGear extends FieldAction implements Serializable {
 
     private Heading heading;
 

@@ -6,7 +6,9 @@ import com.dtu.common.model.FieldAction;
 import com.dtu.common.model.Player;
 import com.dtu.common.model.Space;
 
-public class Checkpoint extends FieldAction {
+import java.io.Serializable;
+
+public class Checkpoint extends FieldAction implements Serializable {
     private int checkpointNumber;
 
     @Override
