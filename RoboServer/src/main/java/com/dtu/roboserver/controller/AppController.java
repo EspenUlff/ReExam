@@ -91,16 +91,8 @@ public class AppController {
 
     @GetMapping(value = "/game/loadgame/{id}")
     public ResponseEntity<String> loadGame(@PathVariable UUID id){
-        try {
-            var game = SaveGameManager.loadGameFromFile(id.toString());
-            games.put(id, new GameController(game));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.notFound().build();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        var game = SaveGameManager.loadGameFromFileNoExcept(id.toString());
+        games.put(id, new GameController(game));
         return ResponseEntity.ok("Loaded game");
     }
 
