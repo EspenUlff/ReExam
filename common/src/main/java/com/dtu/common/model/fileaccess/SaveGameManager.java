@@ -31,9 +31,7 @@ public class SaveGameManager {
     public static Board loadGameFromFileNoExcept(String fileName){
             try {
                 return loadGameFromFile(fileName);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
     }
