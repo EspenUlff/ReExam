@@ -21,6 +21,7 @@
  */
 package com.dtu.common.model.fileaccess;
 
+import com.dtu.common.Config;
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 
@@ -28,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**
@@ -75,7 +77,7 @@ public class IOUtil {
         return IOUtil.readString(inputStream);
     }
 
-    private static File[] getFolder (String folder){
+    private static File[] getFolder(String folder) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         URL url = loader.getResource(folder);
         String path = url.getPath();
@@ -89,11 +91,24 @@ public class IOUtil {
         File[] boardNames = new File(path).listFiles();
 
         ArrayList<String> boards = new ArrayList<>();
-        for (File boardName : boardNames){
+        for (File boardName : boardNames) {
             String name = boardName.getName();
             boards.add(name.substring(0, name.lastIndexOf(".")));
         }
         return boards;
+    }
+
+    public static ArrayList<String> getSaveNames() {
+        Path path = Path.of(System.getenv("APPDATA"), "Roborally", Config.GAMESFOLDER);
+        File[] saveNames = new File(String.valueOf(path)).listFiles();
+
+        ArrayList<String> saves = new ArrayList<>();
+        for (File saveName : saveNames) {
+            String name = saveName.getName();
+            saves.add(name);
+
+        }
+        return saves;
     }
 
 }
