@@ -97,5 +97,11 @@ public class AppController {
         return ResponseEntity.ok("Deleted");
     }
 
+    @GetMapping(value = "/game/updategame/{id}")
+    public ResponseEntity<Board> updateGame(@PathVariable UUID id){
+        var game = SaveGameManager.loadGameFromFileNoExcept(id.toString());
+        return ResponseEntity.ok(game);
+    }
+
 
 }

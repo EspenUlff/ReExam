@@ -182,4 +182,12 @@ public class HttpClientSynchronous {
             throw new RuntimeException(e);
         }
     }
+    public static Board updateBoard (UUID id, Board board){
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(BaseURI+"/game/updategame/" + id))
+                .build();
+        saveGameNoExcept(id, board);
+        return loadGameNoExcept(id);
+    }
 }
