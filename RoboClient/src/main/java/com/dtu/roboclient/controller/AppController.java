@@ -48,7 +48,7 @@ public class AppController {
 
     }
 
-    private void InitializeGame(Board board) {
+    public void InitializeGame(Board board) {
 
         List<Player> players = new ArrayList<>();
         for (int x = 0; x < board.width; x++) {
