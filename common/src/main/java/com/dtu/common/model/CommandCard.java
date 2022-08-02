@@ -31,11 +31,11 @@ import java.io.Serializable;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class CommandCard extends Subject implements Serializable {
     @Expose
     final public Command command;
+
     public CommandCard(@NotNull Command command) {
         this.command = command;
     }

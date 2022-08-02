@@ -32,7 +32,6 @@ import java.util.List;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 
 public class Space extends Subject implements Serializable {
@@ -62,8 +61,7 @@ public class Space extends Subject implements Serializable {
 
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
-        if (player != oldPlayer &&
-                (player == null || board == player.getBoard())) {
+        if (player != oldPlayer && (player == null || board == player.getBoard())) {
             this.player = player;
             if (oldPlayer != null) {
                 // this should actually not happen

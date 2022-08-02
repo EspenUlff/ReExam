@@ -57,9 +57,10 @@ public class Board extends Subject implements Serializable {
     @Expose
     public Player winner;
 
-    public Board(int width, int height){
+    public Board(int width, int height) {
         this(width, height, 0);
     }
+
     public Board(int width, int height, int totalCheckpoints) {
         this.width = width;
         this.height = height;
@@ -76,8 +77,7 @@ public class Board extends Subject implements Serializable {
 
 
     public Space getSpace(int x, int y) {
-        if (x >= 0 && x < width &&
-                y >= 0 && y < height) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
             return spaces[x][y];
         } else {
             return null;
@@ -210,9 +210,7 @@ public class Board extends Subject implements Serializable {
         // status of the game
 
         // XXX: V2 changed the status so that it shows the phase, the player and the step
-        return "Phase: " + getPhase().name() +
-                ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep();
+        return "Phase: " + getPhase().name() + ", Player = " + getCurrentPlayer().getName() + ", Step: " + getStep();
     }
 
     public int getTotalCheckpoints() {
@@ -224,8 +222,7 @@ public class Board extends Subject implements Serializable {
     }
 
     public void setWinner(Player winner) {
-        if(this.winner == null && winner.hasWon())
-            this.winner = winner;
+        if (this.winner == null && winner.hasWon()) this.winner = winner;
         notifyChange();
     }
 

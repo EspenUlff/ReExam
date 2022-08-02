@@ -29,10 +29,7 @@ public class AppController {
         this.roboRally = roboRally;
     }
 
-    private static final HttpClient httpClient = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_1_1)
-            .connectTimeout(Duration.ofSeconds(10))
-            .build();
+    private static final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
 
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(Config.PLAYER_NUMBER_OPTIONS.get(0), Config.PLAYER_NUMBER_OPTIONS);
@@ -54,7 +51,7 @@ public class AppController {
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
-                if (space.getPlayer() != null){
+                if (space.getPlayer() != null) {
                     players.add(space.getPlayer());
                 }
             }

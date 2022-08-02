@@ -29,7 +29,6 @@ import java.io.Serializable;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public abstract class FieldAction implements Serializable {
 
@@ -38,7 +37,7 @@ public abstract class FieldAction implements Serializable {
      * that the GameController associated with the game is passed to this method.
      *
      * @param gameController the gameController of the respective game
-     * @param space the space this action should be executed for
+     * @param space          the space this action should be executed for
      * @return whether the action was successfully executed
      */
     public abstract boolean doAction(IGameController gameController, Space space, int var);

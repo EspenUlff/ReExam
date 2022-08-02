@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class SaveGameManager {
-    private static final Path appData = Path.of(System.getenv("APPDATA"),"Roborally", Config.GAMESFOLDER);
+    private static final Path appData = Path.of(System.getenv("APPDATA"), "Roborally", Config.GAMESFOLDER);
 
     public static void saveGameToFile(Board board, String fileName) throws IOException {
         var file = Path.of(appData.toString(), fileName).toFile();
@@ -29,12 +29,13 @@ public class SaveGameManager {
         ois.close();
         return board;
     }
-    public static Board loadGameFromFileNoExcept(String fileName){
-            try {
-                return loadGameFromFile(fileName);
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+
+    public static Board loadGameFromFileNoExcept(String fileName) {
+        try {
+            return loadGameFromFile(fileName);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean deleteGame(String fileName) {

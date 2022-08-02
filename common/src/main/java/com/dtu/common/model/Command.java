@@ -35,12 +35,7 @@ public enum Command implements Serializable {
 
     // This is a very simplistic way of realizing different commands.
 
-    FORWARD("Fwd"),
-    RIGHT("Turn Right"),
-    LEFT("Turn Left"),
-    FAST_FORWARD("Fast Fwd"),
-    TRIPLE_FORWARD("Turbo fwd"),
-    OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
+    FORWARD("Fwd"), RIGHT("Turn Right"), LEFT("Turn Left"), FAST_FORWARD("Fast Fwd"), TRIPLE_FORWARD("Turbo fwd"), OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
 
     final public String displayName;
     @Expose(serialize = false)
@@ -51,7 +46,9 @@ public enum Command implements Serializable {
         this.options = List.of(options);
     }
 
-    public boolean isInteractive() {return !options.isEmpty();}
+    public boolean isInteractive() {
+        return !options.isEmpty();
+    }
 
     public List<Command> getOptions() {
         return options;

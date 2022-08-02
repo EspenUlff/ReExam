@@ -83,7 +83,7 @@ public class AppController {
     }
 
     @GetMapping(value = "/game/loadgame/{id}")
-    public ResponseEntity<Board> loadGame(@PathVariable UUID id){
+    public ResponseEntity<Board> loadGame(@PathVariable UUID id) {
         var game = SaveGameManager.loadGameFromFileNoExcept(id.toString());
         return ResponseEntity.ok(game);
     }
@@ -91,7 +91,7 @@ public class AppController {
     @DeleteMapping(value = "/game/{id}")
     public ResponseEntity<String> endGame(@PathVariable UUID id) {
         var deleted = SaveGameManager.deleteGame(id.toString());
-        if (!deleted){
+        if (!deleted) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok("Deleted");

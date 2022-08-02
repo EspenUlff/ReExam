@@ -39,7 +39,7 @@ public class SaveBoard {
             template.players.add(new PlayerTemplate(player.getName(), player.getColor(), player.getSpace().x, player.getSpace().y, player.getHeading()));
         }
 
-        String filename = Path.of(System.getenv("APPDATA"),"Roborally", Config.GAMESFOLDER, name + "." + JSON_EXT).toString();
+        String filename = Path.of(System.getenv("APPDATA"), "Roborally", Config.GAMESFOLDER, name + "." + JSON_EXT).toString();
 
         // In simple cases, we can create a Gson object with new:
         //

@@ -34,7 +34,6 @@ import java.io.Serializable;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class ConveyorBelt extends FieldAction implements Serializable {
 
