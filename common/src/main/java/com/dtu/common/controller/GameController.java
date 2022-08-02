@@ -237,7 +237,6 @@ public class GameController implements IGameController {
         }
     }
 
-    // TODO: V2
     public void moveForward(@NotNull Player player, int amount) {
         try {
             moveForward(player, amount, player.getHeading());
