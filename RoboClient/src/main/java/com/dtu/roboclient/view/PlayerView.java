@@ -24,6 +24,7 @@ package com.dtu.roboclient.view;
 import com.dtu.common.controller.IGameController;
 import com.dtu.common.model.*;
 import com.dtu.common.observer.Subject;
+import com.dtu.roboclient.controller.HttpClientSynchronous;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -92,13 +93,17 @@ public class PlayerView extends Tab implements ViewObserver {
         //      refactored. - Better on individual view anyway for purpose of RestAPI?
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
+        finishButton.setOnAction(e ->{ gameController.finishProgrammingPhase();
+            HttpClientSynchronous.updateBoard(HttpClientSynchronous.gameId, player.getBoard());
+        });
 
         executeButton = new Button("Execute Program");
-        executeButton.setOnAction(e -> gameController.executePrograms());
+        executeButton.setOnAction(e ->{ gameController.executePrograms();
+        HttpClientSynchronous.updateBoard(HttpClientSynchronous.gameId, player.getBoard());});
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction(e -> gameController.executeStep());
+        stepButton.setOnAction(e ->{ gameController.executeStep();
+        HttpClientSynchronous.updateBoard(HttpClientSynchronous.gameId, player.getBoard());});
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
