@@ -9,9 +9,15 @@ import java.io.Serializable;
 
 
 public class RotateGear extends FieldAction implements Serializable {
+    public int direction;
+
+    public RotateGear(int direction) {
+        super();
+        this.direction = direction;
+    }
 
     @Override
-    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int direction) {
+    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space) {
         if (direction == 1){
             gameController.turnRight(space.getPlayer());
         }

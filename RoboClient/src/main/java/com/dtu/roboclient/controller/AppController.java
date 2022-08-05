@@ -56,7 +56,9 @@ public class AppController {
                 Space space = board.getSpace(x, y);
                 if (space.getPlayer() != null){
                     players.add(space.getPlayer());
+                    space.getPlayer().setSpace(space);
                 }
+                space.board = board;
             }
         }
         for (var player : players) {

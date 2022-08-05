@@ -25,9 +25,13 @@ public class FieldActionTypeAdapter extends TypeAdapter<FieldAction> {
             out.value("conveyorBelt");
             out.name("heading");
             out.value(conveyorBelt.getHeading().toString());
+            out.name("power");
+            out.value(conveyorBelt.power);
         }
         if (value instanceof RotateGear rotateGear) {
             out.value("rotateGear");
+            out.name("direction");
+            out.value(rotateGear.direction);
         }
         out.endObject();
     }
@@ -48,10 +52,14 @@ public class FieldActionTypeAdapter extends TypeAdapter<FieldAction> {
             if ("conveyorBelt".equals(type)) {
                 in.nextName();
                 String heading = in.nextString();
-                action = new ConveyorBelt(Heading.valueOf(heading));
+                in.nextName();
+                int power = in.nextInt();
+                action = new ConveyorBelt(Heading.valueOf(heading), power);
             }
             if ("rotateGear".equals(type)) {
-                action = new RotateGear();
+                in.nextName();
+                int direction = in.nextInt();
+                action = new RotateGear(direction);
             }
         }
         in.endObject();

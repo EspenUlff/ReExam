@@ -63,7 +63,7 @@ public class LoadBoard {
 		// In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(Player.class, new Adapter<Player>()).
-                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
+                registerTypeAdapter(FieldAction.class, new FieldActionTypeAdapter())
                 .registerTypeAdapter(Board.class, new Adapter<Board>());
 
         Gson gson = simpleBuilder.create();

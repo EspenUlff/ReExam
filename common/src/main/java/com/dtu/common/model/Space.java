@@ -43,7 +43,7 @@ public class Space extends Subject implements Serializable {
     @Expose
     public final List<FieldAction> actions = new ArrayList<>();
     @Expose(serialize = false)
-    public final transient Board board;
+    public transient Board board;
     @Expose
     public final int x;
     @Expose

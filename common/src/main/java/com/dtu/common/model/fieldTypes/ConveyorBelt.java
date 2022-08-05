@@ -39,6 +39,7 @@ import java.io.Serializable;
 public class ConveyorBelt extends FieldAction implements Serializable {
 
     public Heading heading;
+    public int power;
 
     public Heading getHeading() {
         return heading;
@@ -48,14 +49,15 @@ public class ConveyorBelt extends FieldAction implements Serializable {
         this.heading = heading;
     }
 
-    public ConveyorBelt(Heading heading) {
+    public ConveyorBelt(Heading heading, int power) {
         this.heading = heading;
+        this.power = power;
     }
 
     @Override
-    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space, int amount) {
+    public boolean doAction(@NotNull IGameController gameController, @NotNull Space space) {
         try {
-            gameController.moveForward(space.getPlayer(), amount, this.heading);
+            gameController.moveForward(space.getPlayer(), power, this.heading);
         } catch (GameController.ImpossibleMoveException e) {
             throw new RuntimeException(e);
         }

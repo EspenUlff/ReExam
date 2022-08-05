@@ -249,7 +249,7 @@ public class GameController implements IGameController {
     public void moveForward(@NotNull Player player, int amount, Heading heading) throws ImpossibleMoveException {
         for (int i = 0; i < amount; i++) {
             Space space = player.getSpace();
-            if (player != null && player.getBoard() == board && space != null) {
+            if (/*player != null && player.getBoard() == board &&*/ space != null) {
                 Space target = board.getNeighbour(space, heading);
                 if (target != null) {
                     if (target.getPlayer() != null){

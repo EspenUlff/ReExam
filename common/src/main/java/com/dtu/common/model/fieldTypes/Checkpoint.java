@@ -16,7 +16,7 @@ public class Checkpoint extends FieldAction implements Serializable {
     }
 
     @Override
-    public boolean doAction(IGameController gameController, Space space, int var) {
+    public boolean doAction(IGameController gameController, Space space) {
         Player player = space.getPlayer();
         Board board = gameController.getBoard();
 

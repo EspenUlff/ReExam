@@ -21,19 +21,24 @@
  */
 package com.dtu.roboclient.view;
 
+import com.dtu.common.model.Heading;
+import com.dtu.common.model.fieldTypes.ConveyorBelt;
+import com.dtu.common.model.fieldTypes.RotateGear;
 import com.dtu.common.observer.Subject;
 import com.dtu.common.model.Player;
 import com.dtu.common.model.Space;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
@@ -61,36 +66,103 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
-        // updatePlayer();
-
-        // This space view should listen to changes of the space
         space.attach(this);
         update(space);
     }
 
-    private void updatePlayer() {
-        this.getChildren().clear();
+    private void renderPlayer() {
 
         Player player = space.getPlayer();
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
-                    20.0, 0.0 );
+                    20.0, 0.0);
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
 
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
+            arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
             this.getChildren().add(arrow);
         }
     }
 
+    ImagePattern getImageResource(String path) {
+        return new ImagePattern(new Image(getClass().getResource(path).toString()));
+    }
+
+    private void renderWalls() {
+
+        var wall = getImageResource("/graphics/Wall.png");
+
+        for (Heading wallHeading : this.space.getWalls()) {
+            Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+
+            rectangle.setRotate(wallHeading.ordinal() * 90);
+            rectangle.toFront();
+            rectangle.setFill(wall);
+            this.getChildren().add(rectangle);
+        }
+    }
+
+    private void renderBG() {
+        space.actions.stream()
+                .filter(fieldAction -> fieldAction instanceof ConveyorBelt)
+                .findFirst()
+                .ifPresent(cb -> {
+            var conveyorBelt = (ConveyorBelt) cb;
+            if (conveyorBelt.power == 1){
+                var belt = getImageResource("/graphics/ConveyorBelt_Green.png");
+                Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+
+                rectangle.setRotate(conveyorBelt.heading.ordinal() * 90);
+                rectangle.toBack();
+                rectangle.setFill(belt);
+                this.getChildren().add(rectangle);
+            }
+            if(conveyorBelt.power == 2) {
+                var belt = getImageResource("/graphics/ConveyorBelt_Blue.png");
+                Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+
+                rectangle.setRotate(conveyorBelt.heading.ordinal() * 90);
+                rectangle.toBack();
+                rectangle.setFill(belt);
+                this.getChildren().add(rectangle);
+            }
+        });
+        space.actions.stream()
+                .filter(fieldAction -> fieldAction instanceof RotateGear)
+                .findFirst()
+                .ifPresent(rGear -> {
+                    var rotateGear = (RotateGear) rGear;
+                    if (rotateGear.direction == 1){
+                        var gear = getImageResource("/graphics/GearRight.png");
+                        Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+
+                        rectangle.toBack();
+                        rectangle.setFill(gear);
+                        this.getChildren().add(rectangle);
+                    }
+                    if(rotateGear.direction == 2) {
+                        var gear = getImageResource("/graphics/GearLeft.png");
+                        Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+
+                        rectangle.toBack();
+                        rectangle.setFill(gear);
+                        this.getChildren().add(rectangle);
+                    }
+    });
+    }
+
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
-            updatePlayer();
+            this.getChildren().clear();
+            renderBG();
+            renderWalls();
+            renderPlayer();
         }
     }
 

@@ -3,45 +3,36 @@
   "height": 8,
   "spaces": [
     {
-      "walls": [
-        "SOUTH"
-      ],
+      "walls": ["NORTH"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "WEST"
-          }
+          "type": "conveyorBelt",
+          "heading": "WEST",
+          "power":1
         }
       ],
       "x": 0,
       "y": 0
     },
     {
-      "walls": [
-        "NORTH"
-      ],
+      "walls": ["NORTH"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "WEST"
-          }
+          "type": "conveyorBelt",
+          "heading": "WEST",
+          "power":1
         }
       ],
       "x": 1,
       "y": 0
     },
     {
-      "walls": [
-        "WEST"
-      ],
+      "walls": ["WEST"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power":1
         }
       ],
       "x": 1,
@@ -51,10 +42,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power":1
         }
       ],
       "x": 1,
@@ -64,10 +54,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power":1
         }
       ],
       "x": 1,
@@ -77,10 +66,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power":1
         }
       ],
       "x": 1,
@@ -90,10 +78,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power":1
         }
       ],
       "x": 1,
@@ -103,100 +90,92 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power":1
         }
       ],
       "x": 1,
       "y": 6
     },
     {
-      "walls": [
-        "NORTH"
-      ],
+      "walls": ["NORTH"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "EAST"
-          }
+          "type": "conveyorBelt",
+          "heading": "EAST",
+          "power":1
         }
       ],
       "x": 2,
       "y": 2
     },
     {
-      "walls": [
-        "EAST"
-      ],
+      "walls": ["EAST"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "SOUTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "SOUTH",
+          "power":1
         }
       ],
       "x": 3,
       "y": 3
     },
     {
-      "walls": [
-        "SOUTH"
-      ],
+      "walls": ["SOUTH"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "WEST"
-          }
+          "type": "conveyorBelt",
+          "heading": "WEST",
+          "power":1
         }
       ],
       "x": 4,
       "y": 4
     },
     {
-      "walls": [
-        "WEST"
-      ],
+      "walls": ["WEST"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power":1
         }
       ],
       "x": 5,
       "y": 5
     },
     {
-      "walls": [
-        "NORTH"
-      ],
+      "walls": ["NORTH"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "EAST"
-          }
+          "type": "conveyorBelt",
+          "heading": "EAST",
+          "power":1
         }
       ],
       "x": 6,
       "y": 6
     },
     {
-      "walls": [
-        "EAST"
-      ],
+      "walls": ["EAST"],
       "actions": [
         {
-          "CLASSNAME": "com.dtu.common.model.fieldTypes.ConveyorBelt",
-          "INSTANCE": {
-            "heading": "SOUTH"
-          }
+          "type": "rotateGear",
+          "direction":1
+        }
+      ],
+      "x": 5,
+      "y": 7
+    },
+    {
+      "walls": ["EAST"],
+      "actions": [
+        {
+          "type": "conveyorBelt",
+          "heading": "SOUTH",
+          "power":1
         }
       ],
       "x": 7,
@@ -204,4 +183,3 @@
     }
   ]
 }
-
