@@ -5,6 +5,7 @@ import com.dtu.common.controller.GameController;
 import com.dtu.common.model.Board;
 import com.dtu.common.model.Player;
 import com.dtu.common.model.Space;
+import com.dtu.common.model.fieldTypes.Checkpoint;
 import com.dtu.roboclient.RoboRally;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -13,10 +14,7 @@ import javafx.scene.control.ChoiceDialog;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class AppController {
 
@@ -35,12 +33,19 @@ public class AppController {
             .build();
 
     public void newGame() {
-        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(Config.PLAYER_NUMBER_OPTIONS.get(0), Config.PLAYER_NUMBER_OPTIONS);
-        dialog.setTitle("Player number");
-        dialog.setHeaderText("Select number of players");
-        Optional<Integer> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            gameID = HttpClientSynchronous.NewGameNoExcept(result.get());
+        ChoiceDialog<Integer> numberDialog = new ChoiceDialog<>(Config.PLAYER_NUMBER_OPTIONS.get(0), Config.PLAYER_NUMBER_OPTIONS);
+        numberDialog.setTitle("Player number");
+        numberDialog.setHeaderText("Select number of players");
+        Optional<Integer> numberResult = numberDialog.showAndWait();
+
+        var boards = HttpClientSynchronous.boardsNoExcept();
+        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boards.get(0), boards);
+        boardDialog.setTitle("Board");
+        boardDialog.setHeaderText("Select board");
+        Optional<String> boardResult = boardDialog.showAndWait();
+
+        if (numberResult.isPresent() && boardResult.isPresent()) {
+            gameID = HttpClientSynchronous.NewGameNoExcept(numberResult.get(), boardResult.get());
             var board = HttpClientSynchronous.loadGameNoExcept(gameID);
 
             InitializeGame(board);
@@ -71,6 +76,12 @@ public class AppController {
             player.setBoard(board);
         }
         board.setPlayers(players);
+        board.totalCheckpoints = Math.toIntExact(Arrays.stream(board.spaces)
+                .flatMap(spaces -> Arrays.stream(spaces).map(space -> space.actions))
+                .map(fieldActions -> fieldActions.stream()
+                        .filter(fieldAction -> fieldAction instanceof Checkpoint)
+                        .count())
+                .reduce(0L, Long::sum));
         gameController = new GameController(board);
         roboRally.createBoardView(gameController);
 

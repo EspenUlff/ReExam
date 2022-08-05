@@ -8,7 +8,7 @@
         {
           "type": "conveyorBelt",
           "heading": "WEST",
-          "power":1
+      "power":1
         }
       ],
       "x": 0,
@@ -20,7 +20,7 @@
         {
           "type": "conveyorBelt",
           "heading": "WEST",
-          "power":1
+      "power":1
         }
       ],
       "x": 1,
@@ -32,7 +32,7 @@
         {
           "type": "conveyorBelt",
           "heading": "NORTH",
-          "power":1
+      "power":1
         }
       ],
       "x": 1,
@@ -44,7 +44,7 @@
         {
           "type": "conveyorBelt",
           "heading": "NORTH",
-          "power":1
+      "power":1
         }
       ],
       "x": 1,
@@ -56,7 +56,7 @@
         {
           "type": "conveyorBelt",
           "heading": "NORTH",
-          "power":1
+      "power":1
         }
       ],
       "x": 1,
@@ -68,7 +68,7 @@
         {
           "type": "conveyorBelt",
           "heading": "NORTH",
-          "power":1
+      "power":1
         }
       ],
       "x": 1,
@@ -78,9 +78,8 @@
       "walls": [],
       "actions": [
         {
-          "type": "conveyorBelt",
-          "heading": "NORTH",
-          "power":1
+          "type": "checkPoint",
+          "checkPointNumber": 1
         }
       ],
       "x": 1,
@@ -92,7 +91,7 @@
         {
           "type": "conveyorBelt",
           "heading": "NORTH",
-          "power":1
+      "power":1
         }
       ],
       "x": 1,
@@ -104,7 +103,7 @@
         {
           "type": "conveyorBelt",
           "heading": "EAST",
-          "power":1
+      "power":1
         }
       ],
       "x": 2,
@@ -114,9 +113,8 @@
       "walls": ["EAST"],
       "actions": [
         {
-          "type": "conveyorBelt",
-          "heading": "SOUTH",
-          "power":1
+                  "type": "checkPoint",
+                  "checkPointNumber": 2
         }
       ],
       "x": 3,
@@ -128,7 +126,7 @@
         {
           "type": "conveyorBelt",
           "heading": "WEST",
-          "power":1
+      "power":1
         }
       ],
       "x": 4,
@@ -140,7 +138,7 @@
         {
           "type": "conveyorBelt",
           "heading": "NORTH",
-          "power":1
+      "power":1
         }
       ],
       "x": 5,
@@ -152,31 +150,19 @@
         {
           "type": "conveyorBelt",
           "heading": "EAST",
-          "power":1
+      "power":1
         }
       ],
       "x": 6,
       "y": 6
     },
     {
-      "walls": ["EAST"],
+      "walls":[],
       "actions": [
         {
-          "type": "rotateGear",
-          "direction":1
-        }
-      ],
-      "x": 5,
-      "y": 7
-    },
-    {
-      "walls": ["EAST"],
-      "actions": [
-        {
-          "type": "conveyorBelt",
-          "heading": "SOUTH",
-          "power":1
-        }
+                  "type": "checkPoint",
+                  "checkPointNumber": 3
+                }
       ],
       "x": 7,
       "y": 7

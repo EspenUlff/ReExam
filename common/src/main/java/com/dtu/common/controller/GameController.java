@@ -163,6 +163,10 @@ public class GameController implements IGameController {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+        for (Player player:board.getPlayers()) {
+            player.getSpace().actions.forEach(fieldAction -> fieldAction.doAction(this, player.getSpace()));
+
+        }
     }
 
     // XXX: V2

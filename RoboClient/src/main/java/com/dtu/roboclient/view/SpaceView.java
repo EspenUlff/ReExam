@@ -22,6 +22,7 @@
 package com.dtu.roboclient.view;
 
 import com.dtu.common.model.Heading;
+import com.dtu.common.model.fieldTypes.Checkpoint;
 import com.dtu.common.model.fieldTypes.ConveyorBelt;
 import com.dtu.common.model.fieldTypes.RotateGear;
 import com.dtu.common.observer.Subject;
@@ -152,7 +153,21 @@ public class SpaceView extends StackPane implements ViewObserver {
                         rectangle.setFill(gear);
                         this.getChildren().add(rectangle);
                     }
-    });
+        });
+        space.actions.stream()
+                .filter(fieldAction -> fieldAction instanceof Checkpoint)
+                .findFirst()
+                .ifPresent(cPoint -> {
+                    var checkpoint = (Checkpoint) cPoint;
+
+                    var image = getImageResource(String.format("/graphics/Checkpoint%d.PNG", checkpoint.getCheckpointNumber()));
+                    Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+
+                    rectangle.toBack();
+                    rectangle.setFill(image);
+                    this.getChildren().add(rectangle);
+
+                });
     }
 
 

@@ -28,9 +28,13 @@ import com.google.common.io.ByteSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A utility class reading strings from resources and arbitrary input streams.
@@ -84,17 +88,19 @@ public class IOUtil {
         return new File(path).listFiles();
     }
 
-    public static ArrayList<String> getBoardNames() {
+    public static List<String> getBoardNames() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource("boards");
-        String path = url.getPath();
-        File[] boardNames = new File(path).listFiles();
 
-        ArrayList<String> boards = new ArrayList<>();
-        for (File boardName : boardNames) {
-            String name = boardName.getName();
-            boards.add(name.substring(0, name.lastIndexOf(".")));
+        List<String> boards = new ArrayList<>();
+        try {
+            boards = Files.list(Paths.get(loader.getResource(Config.BOARDSFOLDER).toURI()))
+                    .toList().stream().map(file -> file.getFileName().toString()).toList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
+
         return boards;
     }
 

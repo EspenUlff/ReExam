@@ -1,0 +1,122 @@
+{
+  "width": 8,
+  "height": 8,
+  "spaces": [
+    {
+      "walls": ["NORTH"],
+      "actions": [
+        {
+          "type": "conveyorBelt",
+          "heading": "WEST",
+          "power": 1
+        }
+      ],
+      "x": 0,
+      "y": 0
+    },
+    {
+      "walls": ["SOUTH"],
+      "actions": [
+        {
+          "type": "rotateGear",
+          "direction": 2
+        }
+      ],
+      "x": 0,
+      "y": 3
+    },
+    {
+      "walls": ["WEST"],
+      "actions": [
+        {
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power": 1
+        }
+      ],
+      "x": 1,
+      "y": 1
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "type": "rotateGear",
+          "direction": 1
+        }
+      ],
+      "x": 1,
+      "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power": 1
+        }
+      ],
+      "x": 1,
+      "y": 4
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "type": "conveyorBelt",
+          "heading": "NORTH",
+          "power": 1
+        }
+      ],
+      "x": 2,
+      "y": 3
+    },
+    {
+      "walls": ["EAST"],
+      "actions": [
+        {
+          "type": "conveyorBelt",
+          "heading": "SOUTH",
+          "power": 1
+        }
+      ],
+      "x": 3,
+      "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "type": "rotateGear",
+          "direction": 1
+        }
+      ],
+      "x": 4,
+      "y": 4
+    },
+    {
+      "walls": ["NORTH"],
+      "actions": [
+        {
+          "type": "conveyorBelt",
+          "heading": "EAST",
+          "power": 1
+        }
+      ],
+      "x": 6,
+      "y": 6
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "type": "rotateGear",
+          "direction": 2
+        }
+      ],
+      "x": 7,
+      "y": 6
+    }
+  ]
+}

@@ -32,10 +32,10 @@ public class HttpClientSynchronous {
         System.out.println(list());
     }
 
-    public static UUID NewGame(int players) throws IOException, InterruptedException {
+    public static UUID NewGame(int players, String board) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(BaseURI + "/newgame/" + players))
+                .uri(URI.create(BaseURI + "/newgame/" + players + "/" + board))
                 .build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var body = response.body();
@@ -45,9 +45,9 @@ public class HttpClientSynchronous {
         return gameId;
     }
 
-    public static UUID NewGameNoExcept(int players) {
+    public static UUID NewGameNoExcept(int players, String board) {
         try {
-            return NewGame(players);
+            return NewGame(players, board);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
@@ -68,6 +68,26 @@ public class HttpClientSynchronous {
     public static List<String> listNoExcept() {
         try {
             return list();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<String> boards() throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(BaseURI + "/boards"))
+                .build();
+        var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        var body = response.body();
+        return Arrays.stream(new Gson().fromJson(body, String[].class)).toList();
+    }
+
+    public static List<String> boardsNoExcept() {
+        try {
+            return boards();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

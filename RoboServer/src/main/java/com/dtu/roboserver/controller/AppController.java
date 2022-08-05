@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,9 +25,9 @@ public class AppController {
         return ResponseEntity.ok().body("Pong");
     }
 
-    @GetMapping(value = "/newgame/{players}")
-    public ResponseEntity<UUID> NewGame(@PathVariable int players) throws IOException {
-        Board board = LoadBoard.loadBoardFromFile(null);
+    @GetMapping(value = "/newgame/{players}/{boardname}")
+    public ResponseEntity<UUID> NewGame(@PathVariable int players, @PathVariable String boardname) throws IOException, URISyntaxException {
+        Board board = LoadBoard.loadBoardFromFile(boardname);
         GameController gameController = new GameController(board);
 
         for (int i = 0; i < players; i++) {
@@ -50,12 +51,8 @@ public class AppController {
     }
 
     @GetMapping(value = "/boards")
-    public ResponseEntity<ArrayList<Board>> boardList() {
-        ArrayList<Board> boardArrayList = new ArrayList<>();
-        for (var boardname : IOUtil.getBoardNames()) {
-            boardArrayList.add(LoadBoard.loadBoardFromFile(boardname));
-        }
-        return ResponseEntity.ok().body(boardArrayList);
+    public ResponseEntity<List<String>> boardList() {
+        return ResponseEntity.ok().body(IOUtil.getBoardNames());
     }
 
     /*@GetMapping(value = "/game/{id}")
